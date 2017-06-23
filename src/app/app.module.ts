@@ -6,18 +6,20 @@ import { NgModule } from '@angular/core';
 import { MdCardModule, MdButtonModule, MdDialogModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { HowItWorksComponent } from './how-it-works/how-it-works.component';
-import { ForSchoolsComponent } from './for-schools/for-schools.component';
-import { ForTeachersComponent } from './for-teachers/for-teachers.component';
-import { FaqButtonComponent, FaqDialogComponent } from './faq/faq.component';
-import { HeaderComponent } from './header/header.component';
-import { TermsComponent } from './terms/terms.component';
-import { RegisterFormComponent } from './register-form/register-form.component';
-import { SignInFormComponent } from './sign-in-form/sign-in-form.component';
-import { ProfileComponent } from './profile/profile.component';
+import { HomeComponent } from './components/home/home.component';
+import { HowItWorksComponent } from './components/how-it-works/how-it-works.component';
+import { ForSchoolsComponent } from './components/for-schools/for-schools.component';
+import { ForTeachersComponent } from './components/for-teachers/for-teachers.component';
+import { FaqButtonComponent, FaqDialogComponent } from './components/faq/faq.component';
+import { HeaderComponent } from './components/header/header.component';
+import { TermsButtonComponent, TermsDialogComponent } from './components/terms/terms.component';
+import { RegisterFormComponent } from './components/register-form/register-form.component';
+import { SignInFormButtonComponent, SignInFormDialogComponent } from './components/sign-in-form/sign-in-form.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
-const appRoutes: Routes = []
+import { UserDataService } from './services/user-data/user-data.service';
+
+const appRoutes: Routes = [];
 
 @NgModule({
   declarations: [
@@ -29,14 +31,17 @@ const appRoutes: Routes = []
     FaqButtonComponent,
     FaqDialogComponent,
     HeaderComponent,
-    TermsComponent,
+    TermsButtonComponent,
+    TermsDialogComponent,
     RegisterFormComponent,
-    SignInFormComponent,
+    SignInFormButtonComponent,
+    SignInFormDialogComponent,
     ProfileComponent
   ],
   entryComponents: [
     FaqDialogComponent,
-    TermsComponent
+    SignInFormDialogComponent,
+    TermsDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +51,9 @@ const appRoutes: Routes = []
     MdDialogModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [
+    UserDataService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

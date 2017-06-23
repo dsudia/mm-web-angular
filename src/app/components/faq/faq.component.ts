@@ -7,10 +7,10 @@ import {MdDialog, MdDialogConfig, MdDialogRef} from '@angular/material';
   styleUrls: ['./faqbutton.component.scss']
 })
 export class FaqButtonComponent implements OnInit {
-  config: MdDialogConfig
+  config: MdDialogConfig;
 
   constructor(public dialog: MdDialog) {
-    this.config = new MdDialogConfig()
+    this.config = new MdDialogConfig();
     this.config.disableClose = true
   }
 
