@@ -3,6 +3,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http'
 
 import { MdCardModule, MdButtonModule, MdDialogModule, MdInputModule, MdSelectModule } from '@angular/material';
 
@@ -50,13 +51,14 @@ const appRoutes: Routes = [];
   ],
   imports: [
     BrowserModule,
-    ReactiveFormsModule,
-    NoopAnimationsModule,
+    HttpModule,
     MdCardModule,
     MdButtonModule,
     MdDialogModule,
     MdInputModule,
     MdSelectModule,
+    NoopAnimationsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

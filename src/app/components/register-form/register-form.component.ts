@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {MdDialog, MdDialogConfig, MdDialogRef} from '@angular/material';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms'
 
+import { AuthService } from '../../services/auth/auth.service'
+
 interface RegisterForm {
   email: string;
   password: string;
@@ -44,14 +46,15 @@ export class RegisterFormDialogComponent implements OnInit {
   registerForm: FormGroup;
 
   types = [
-    { value: 0, viewValue: "Educator" },
-    { value: 1, viewValue: "School" }
+    { value: 1, viewValue: "Educator" },
+    { value: 2, viewValue: "School" }
   ]
 
   constructor(
     public dialogRef: MdDialogRef<RegisterFormDialogComponent>,
-    private fb: FormBuilder
-  ) {}
+    private fb: FormBuilder,
+    private authService: AuthService
+   ) {}
 
   createForm(): void {
     this.registerForm = this.fb.group({
@@ -72,7 +75,7 @@ export class RegisterFormDialogComponent implements OnInit {
         Validators.maxLength(50),
         PasswordValidation.matchPassword
       ]],
-      memberType: [0, [
+      memberType: [1, [
         Validators.required,
         Validators.min(0),
         Validators.max(1)
@@ -89,8 +92,8 @@ export class RegisterFormDialogComponent implements OnInit {
   }
 
   onSubmit({ value, valid }: { value: RegisterForm, valid: boolean }) {
-    console.log(value, valid)
     this.dialogRef.close()
+    return this.authService.sendRegistration(value.email, value.password, value.memberType)
   }
 
   onValueChanged(data?: RegisterForm) {
