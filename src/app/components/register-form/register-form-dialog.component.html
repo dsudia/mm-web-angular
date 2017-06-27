@@ -1,0 +1,75 @@
+<div md-dialog-title>Let's start by getting you an account...</div>
+<div md-dialog-content class="form-width">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm)" novalidate>
+    <md-input-container class="full-width">
+      <input
+        mdInput
+        class="form-control"
+        formControlName="email"
+        placeholder="Your email (so uniquely you!)"
+        name="email"
+      />
+      <md-error *ngIf="formErrors.email">
+        {{formErrors.email}}
+      </md-error>
+    </md-input-container>
+    <br/>
+    <md-input-container class="full-width">
+      <input
+        mdInput
+        class="form-control"
+        formControlName="password"
+        type="password"
+        placeholder="A password...shhh!"
+        name="password"
+      />
+      <md-hint align="end">Uppercase, lowercase, number, symbol, at least 8, and all that jazz.</md-hint>
+      <md-error *ngIf="formErrors.password">
+        {{formErrors.password}}
+      </md-error>
+    </md-input-container>
+    <br/>
+    <md-input-container class="full-width">
+      <input
+        mdInput
+        class="form-control"
+        formControlName="passconf"
+        type="password"
+        placeholder="Confirm it please."
+        name="passconf"
+      />
+      <md-error *ngIf="formErrors.passconf">
+        {{formErrors.passconf}}
+      </md-error>
+    </md-input-container>
+    <br/>
+    <br/>
+    <md-select
+      placeholder="I am a..."
+      class="form-control"
+      formControlName="memberType"
+      name="memberType"
+    >
+      <md-option *ngFor="let type of types" [value]="type.value">
+        {{type.viewValue}}
+      </md-option>
+    </md-select>
+    <md-dialog-actions>
+      <button
+        md-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!registerForm.valid"
+      >
+        Sign me up!
+      </button>
+      <button
+        md-raised-button
+        color="accent"
+        md-dialog-close
+      >
+        Not right now.
+      </button>
+    </md-dialog-actions>
+  </form>
+</div>
