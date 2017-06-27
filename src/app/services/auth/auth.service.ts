@@ -12,8 +12,9 @@ export class AuthService {
       password,
       memberType
     })
-    .subscribe(data => {
-      console.log(data)
+    .subscribe(res => {
+      const body = res.json()
+      localStorage.setItem("authToken", body.authToken)
     })
   }
 }
