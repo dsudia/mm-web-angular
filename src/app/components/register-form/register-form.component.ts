@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {MdDialog, MdDialogConfig, MdDialogRef} from '@angular/material';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms'
+import { Router } from '@angular/router'
 
 import { AuthService } from '../../services/auth/auth.service'
+
+declare var require: any
+const passValidator = require('password-validator');
 
 interface RegisterForm {
   email: string;
@@ -53,6 +57,7 @@ export class RegisterFormDialogComponent implements OnInit {
   constructor(
     public dialogRef: MdDialogRef<RegisterFormDialogComponent>,
     private fb: FormBuilder,
+    private router: Router,
     private authService: AuthService
    ) {}
 
@@ -68,6 +73,7 @@ export class RegisterFormDialogComponent implements OnInit {
         Validators.required,
         Validators.minLength(8),
         Validators.maxLength(50),
+        PasswordValidation.passSchema
       ]],
       passconf: ['', [
         Validators.required,
@@ -94,6 +100,7 @@ export class RegisterFormDialogComponent implements OnInit {
   onSubmit({ value, valid }: { value: RegisterForm, valid: boolean }) {
     this.dialogRef.close()
     return this.authService.sendRegistration(value.email, value.password, value.memberType)
+    .then(() => this.router.navigate(['/profile']))
   }
 
   onValueChanged(data?: RegisterForm) {
@@ -128,8 +135,9 @@ export class RegisterFormDialogComponent implements OnInit {
     },
     'password': {
       'required': 'password is required',
-      'minlength': 'email must be at least 8 characters long',
-      'maxlength': 'email must be less than 50 characters long'
+      'minlength': 'password must be at least 8 characters long',
+      'maxlength': 'password must be less than 50 characters long',
+      'schemaFail': 'password must contain uppercase, lowercase, number and symbol'
     },
     'passconf': {
       'required': 'password confirmation is required',
@@ -142,6 +150,21 @@ export class RegisterFormDialogComponent implements OnInit {
 }
 
 class PasswordValidation {
+  static passSchema(control: AbstractControl) {
+    const schema = new passValidator();
+    schema.is().min(8)
+      .is().max(50)
+      .has().uppercase()
+      .has().lowercase()
+      .has().digits()
+      .has().symbols()
+      .has().not().spaces();
+    if (control.value && !schema.validate(control.value)) {
+      return { schemaFail: true }
+    }
+    return null
+  }
+
   static matchPassword(control: AbstractControl) {
     const password = control.root.get('password')
     const passconf = control.value

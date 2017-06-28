@@ -26,10 +26,15 @@ import { SignInFormButtonComponent, SignInFormDialogComponent } from './componen
 import { ProfileComponent } from './components/profile/profile.component';
 import { ToolbarComponent }
  from './components/toolbar/toolbar.component'
+
 // Services
 import { AuthService } from './services/auth/auth.service';
+import { ProfileService } from './services/profile/profile.service'
 
-const appRoutes: Routes = [];
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'profile', component: ProfileComponent }
+];
 
 @NgModule({
   declarations: [
@@ -69,7 +74,8 @@ const appRoutes: Routes = [];
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
-    AuthService
+    AuthService,
+    ProfileService
   ],
   bootstrap: [AppComponent]
 })
