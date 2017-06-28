@@ -12,6 +12,7 @@ import { MdCardModule,
          MdSelectModule,
          MdToolbarModule
         } from '@angular/material';
+import { CovalentMessageModule } from '@covalent/core'
 
 // Components
 import { AppComponent } from './app.component';
@@ -71,6 +72,7 @@ const appRoutes: Routes = [
     MdToolbarModule,
     NoopAnimationsModule,
     ReactiveFormsModule,
+    CovalentMessageModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

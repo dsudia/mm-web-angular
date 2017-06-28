@@ -48,6 +48,7 @@ export class RegisterFormButtonComponent implements OnInit {
 })
 export class RegisterFormDialogComponent implements OnInit {
   registerForm: FormGroup;
+  backendError: Error;
 
   types = [
     { value: 1, viewValue: "Educator" },
@@ -98,9 +99,15 @@ export class RegisterFormDialogComponent implements OnInit {
   }
 
   onSubmit({ value, valid }: { value: RegisterForm, valid: boolean }) {
-    this.dialogRef.close()
     return this.authService.sendRegistration(value.email, value.password, value.memberType)
-    .then(() => this.router.navigate(['/profile']))
+    .then(() => {
+      this.dialogRef.close()
+      this.router.navigate(['/profile'])
+    })
+    .catch(err => {
+      console.log(err.json())
+      this.backendError = err;
+    })
   }
 
   onValueChanged(data?: RegisterForm) {

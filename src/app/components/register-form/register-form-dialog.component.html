@@ -54,6 +54,16 @@
         {{type.viewValue}}
       </md-option>
     </md-select>
+    <td-message
+      #errorMessage
+      label="Oops!"
+      sublabel="error inserting new member into the database"
+      color="red"
+      icon="error"
+      *ngIf="backendError"
+    >
+      <button td-message-actions md-icon-button (click)="errorMessage.close()"><i class="material-icons">cancel</i></button>
+    </td-message>
     <md-dialog-actions>
       <button
         md-raised-button

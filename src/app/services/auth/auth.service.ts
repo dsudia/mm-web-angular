@@ -17,7 +17,10 @@ export class AuthService {
     .then(response => {
       const token = response.json().authToken
       localStorage.setItem('authToken', token)
-    });
+    })
+    .catch(err => {
+      throw err
+    })
   }
 
   login(email: string, password: string) {
