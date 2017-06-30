@@ -7,6 +7,8 @@
     "start": "ng build && webpack && node dist/main.bundle",
     "build": "NODE_ENV=production ng build --prod && webpack",
     "docker": "npm run build && docker build --no-cache -t mm-web-angular .",
+    "tag": "docker tag mm-web-angular:latest 362254585603.dkr.ecr.us-east-1.amazonaws.com/mm-web-angular:latest",
+    "push": "docker push 362254585603.dkr.ecr.us-east-1.amazonaws.com/mm-web-angular:latest",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
