@@ -23,7 +23,7 @@ class App {
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({ extended: false}));
         this.express.use(bodyParser.urlencoded({ extended: false }));
-        this.express.use('/', express.static(path.join(__dirname, 'client')));
+        this.express.use('/', express.static(path.join(process.cwd(), 'dist/client')));
         this.express.use('/healthcheck', (req, res, next ) => {
           res.send(200);
         })
@@ -32,6 +32,7 @@ class App {
             maxAge: '1 day'
         }).unless({
             path: [
+                '/',
                 '/healthcheck',
                 '/profile',
                 { url: '/api/v1/auth', methods: ['GET', 'POST'] }

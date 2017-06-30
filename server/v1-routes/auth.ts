@@ -11,7 +11,6 @@ import {
     UpdatePasswordFailure
 } from './errors';
 import { lowercaseEmail } from './helpers';
-import getLogger from '../log';
 import * as jwt from 'jsonwebtoken';
 import * as validator from 'validator';
 
@@ -25,8 +24,6 @@ schema.is().min(8)
     .has().digits()
     .has().symbols()
     .has().not().spaces();
-
-const logger = getLogger('auth');
 
 export class AuthRouter {
     router: Router;
@@ -55,7 +52,7 @@ export class AuthRouter {
             return;
         })
         .catch((err: string) => {
-            logger.error(err);
+            console.error(err);
             return res.status(500).json(InsertMemberFailure);
         });
     }
@@ -82,7 +79,7 @@ export class AuthRouter {
             return res.status(200).send({authToken});
         })
         .catch((err: string) => {
-            logger.error(err);
+            console.error(err);
             return res.status(401).json(BadLogin);
         });
     }
@@ -103,7 +100,7 @@ export class AuthRouter {
             });
         })
         .catch((err: string) => {
-            logger.error(err);
+            console.error(err);
             return res.status(500).json(UpdatePasswordFailure);
         });
     }
@@ -157,7 +154,7 @@ export class AuthRouter {
     //     });
     //     })
     //     .catch(error => {
-    //     logger.error(error);
+    //     console.error(error);
     //     res.status(500).send('an error occured, please contact support');
     //     });
     // }
@@ -204,7 +201,7 @@ export class AuthRouter {
     //     });
     //     })
     //     .catch(error => {
-    //     logger.error(error);
+    //     console.error(error);
     //     res.status(500).send('an error occured, please contact support');
     //     });
     // }
