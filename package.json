@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng build && tsc -p tsconfig-server.json && node dist/index",
+    "start": "ng build && webpack && node dist/main.bundle",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
