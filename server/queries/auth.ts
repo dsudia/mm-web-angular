@@ -1,13 +1,13 @@
 import { knex } from './db';
 import * as Promise from 'bluebird';
-import * as uuid from 'uuid/v4';
+import * as uuid from 'uuid';
 import * as bcrypt from 'bcrypt';
 import { Registrant } from '../interfaces';
 
 export class AuthQuerier {
 
     insertNewUser(newUser: Registrant): Promise<string> {
-        const id = uuid();
+        const id = uuid.v4();
         const hash = bcrypt.hashSync(newUser.password, 10);
         return knex.returning('id')
         .insert({

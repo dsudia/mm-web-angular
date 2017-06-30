@@ -7,11 +7,9 @@ ENV NODE_ENV production
 EXPOSE 80
 EXPOSE 443
 
-COPY package-lock.json package-lock.json
+COPY yarn.lock yarn.lock
 COPY package.json package.json
-RUN npm config set registry http://repo.fanaticslabs.com/artifactory/api/npm/all-npm-repos
-RUN npm i -g node-gyp && node-gyp clean && npm cache clean
-RUN npm i
+RUN yarn
 
 COPY dist dist
 
