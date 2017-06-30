@@ -5,6 +5,7 @@ import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as jwt from 'express-jwt';
+const xray: any = require('aws-xray-sdk')
 import { authRouter } from './v1-routes/auth';
 import { InvalidToken } from './v1-routes/errors';
 
@@ -18,6 +19,9 @@ class App {
     }
 
     private middleware(): void {
+        if (process.env.NODE_ENV === 'production') {
+          this.express.use(xray.express.openSegment('montessori-match'));
+        }
         this.express.use(logger('dev'));
         this.express.use(cors());
         this.express.use(bodyParser.json());
@@ -38,6 +42,9 @@ class App {
                 { url: '/api/v1/auth', methods: ['GET', 'POST'] }
             ]
         }));
+        if (process.env.NODE_ENV === 'production') {
+          this.express.use(xray.express.closeSegment('montessori-match'));
+        }
     }
 
     private routes(): void {
