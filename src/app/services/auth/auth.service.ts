@@ -5,7 +5,21 @@ import 'rxjs/add/operator/toPromise'
 @Injectable()
 export class AuthService {
 
-  constructor(private http: Http) { }
+  loggedIn: boolean
+
+  constructor(private http: Http) {
+    this.checkLoggedIn();
+  }
+
+  checkLoggedIn() {
+    const token = localStorage.getItem("authToken")
+
+    if (token) {
+      this.loggedIn = true;
+    } else {
+      this.loggedIn = false;
+    }
+  }
 
   sendRegistration(email: string, password: string, memberType: number) {
     return this.http.post('/api/v1/auth', {
@@ -17,9 +31,10 @@ export class AuthService {
     .then(response => {
       const token = response.json().authToken
       localStorage.setItem('authToken', token)
+      this.loggedIn = true
     })
     .catch(err => {
-      throw err
+      throw err;
     })
   }
 
@@ -29,6 +44,7 @@ export class AuthService {
     .then(response => {
       const token = response.json().authToken
       localStorage.setItem('authToken', token)
+      this.loggedIn = true
     })
   }
 }

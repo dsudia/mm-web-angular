@@ -24,12 +24,16 @@ class App {
         this.express.use(bodyParser.urlencoded({ extended: false}));
         this.express.use(bodyParser.urlencoded({ extended: false }));
         this.express.use('/', express.static(path.join(__dirname, 'client')));
+        this.express.use('/healthcheck', (req, res, next ) => {
+          res.send(200);
+        })
         this.express.use(jwt({
             secret: process.env.JWT_SECRET || 'shhhh',
             maxAge: '1 day'
         }).unless({
             path: [
-                '/',
+                '/healthcheck',
+                '/profile',
                 { url: '/api/v1/auth', methods: ['GET', 'POST'] }
             ]
         }));

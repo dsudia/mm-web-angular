@@ -32,10 +32,7 @@ import { ToolbarComponent }
 import { AuthService } from './services/auth/auth.service';
 import { ProfileService } from './services/profile/profile.service'
 
-const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'profile', component: ProfileComponent }
-];
+import { AuthGuard, appRoutes } from './routes'
 
 @NgModule({
   declarations: [
@@ -76,6 +73,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
+    AuthGuard,
     AuthService,
     ProfileService
   ],

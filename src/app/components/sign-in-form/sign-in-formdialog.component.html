@@ -1,3 +1,61 @@
-<p>
-  sign-in-form works!
-</p>
+<div md-dialog-title>Let's get you to your profile!</div>
+<div md-dialog-content class="form-width">
+  <form [formGroup]="signInForm" (ngSubmit)="onSubmit(signInForm)" novalidate>
+    <md-input-container class="full-width">
+      <input
+        mdInput
+        class="form-control"
+        formControlName="email"
+        placeholder="Your email (so uniquely you!)"
+        name="email"
+      />
+      <md-error *ngIf="formErrors.email">
+        {{formErrors.email}}
+      </md-error>
+    </md-input-container>
+    <br/>
+    <md-input-container class="full-width">
+      <input
+        mdInput
+        class="form-control"
+        formControlName="password"
+        type="password"
+        placeholder="A password...shhh!"
+        name="password"
+      />
+      <md-error *ngIf="formErrors.password">
+        {{formErrors.password}}
+      </md-error>
+    </md-input-container>
+    <br/>
+    <br/>
+    <td-message
+      #errorMessage
+      label="Oops!"
+      sublabel="username or password not valid"
+      color="red"
+      icon="error"
+      *ngIf="backendError"
+    >
+      <button td-message-actions md-icon-button (click)="errorMessage.close()"><i class="material-icons">cancel</i></button>
+    </td-message>
+    <md-dialog-actions>
+      <button
+        md-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!signInForm.valid"
+      >
+        Sign me in!
+      </button>
+      <button
+        md-raised-button
+        color="accent"
+        md-dialog-close
+        [disabled]="signInForm.valid"
+      >
+        Not right now.
+      </button>
+    </md-dialog-actions>
+  </form>
+</div>

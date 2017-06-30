@@ -6,6 +6,6 @@ module.exports = {
   },
   production: {
     client: 'pg',
-    connection: `${process.env.DATABASE_URL}?ssl=true`,
+    connection: `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@mont-match-prod.cfvtfy1vyslz.us-east-1.rds.amazonaws.com:5432/mm`,
   },
 };

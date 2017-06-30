@@ -62,6 +62,10 @@ export class RegisterFormDialogComponent implements OnInit {
     private authService: AuthService
    ) {}
 
+  ngOnInit() {
+    this.createForm();
+  }
+
   createForm(): void {
     this.registerForm = this.fb.group({
       email: ['', [
@@ -92,10 +96,6 @@ export class RegisterFormDialogComponent implements OnInit {
     this.registerForm.valueChanges.subscribe(data => this.onValueChanged(data));
 
     this.onValueChanged();
-  }
-
-  ngOnInit() {
-    this.createForm();
   }
 
   onSubmit({ value, valid }: { value: RegisterForm, valid: boolean }) {
