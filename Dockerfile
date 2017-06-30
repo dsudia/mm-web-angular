@@ -1,4 +1,4 @@
-FROM node:6.11.0
+FROM node:6.11.0-alpine
 
 ENV HTTP_PORT 80
 ENV HTTPS_PORT 443
@@ -9,7 +9,7 @@ EXPOSE 443
 
 COPY yarn.lock yarn.lock
 COPY package.json package.json
-RUN yarn
+RUN yarn install --production=true
 
 COPY dist dist
 

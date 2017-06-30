@@ -1,7 +1,7 @@
 import { knex } from './db';
 import * as Promise from 'bluebird';
 import * as uuid from 'uuid';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { Registrant } from '../interfaces';
 
 export class AuthQuerier {

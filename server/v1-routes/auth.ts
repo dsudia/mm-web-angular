@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 // import { omit, pick, merge } from 'ramda';
 import { Registrant, SecureRequest } from './../interfaces';
 import { AuthQuerier } from '../queries/auth';

@@ -1,6 +1,6 @@
 import {} from 'mocha';
 import * as chai from 'chai';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import * as sinon from 'sinon';
 // import * as sinonChai = require('sinon-chai');
 import * as jwt from 'jsonwebtoken';
