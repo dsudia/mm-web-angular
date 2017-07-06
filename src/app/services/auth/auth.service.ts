@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http'
+import { Router } from '@angular/router'
 import 'rxjs/add/operator/toPromise'
 
 @Injectable()
@@ -7,18 +8,18 @@ export class AuthService {
 
   loggedIn: boolean
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private router: Router) {
     this.checkLoggedIn();
   }
 
   checkLoggedIn() {
-    const token = localStorage.getItem("authToken")
+    const token = localStorage.getItem('authToken');
 
     if (token) {
       this.loggedIn = true;
-    } else {
-      this.loggedIn = false;
+      return;
     }
+    this.loggedIn = false;
   }
 
   sendRegistration(email: string, password: string, memberType: number) {
@@ -29,8 +30,8 @@ export class AuthService {
     })
     .toPromise()
     .then(response => {
-      const token = response.json().authToken
-      localStorage.setItem('authToken', token)
+      const token = response.json().authToken;
+      localStorage.setItem('authToken', token);
       this.loggedIn = true
     })
     .catch(err => {
@@ -42,9 +43,14 @@ export class AuthService {
     return this.http.get(`/api/v1/auth?email=${email}&password=${password}`)
     .toPromise()
     .then(response => {
-      const token = response.json().authToken
-      localStorage.setItem('authToken', token)
-      this.loggedIn = true
+      const token = response.json().authToken;
+      localStorage.setItem('authToken', token);
+      this.loggedIn = true;
     })
+  }
+
+  logout() {
+    localStorage.clear();
+    this.loggedIn = false;
   }
 }

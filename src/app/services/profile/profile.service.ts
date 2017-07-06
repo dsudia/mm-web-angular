@@ -8,7 +8,7 @@ export class ProfileService {
   constructor(private http: Http) { }
 
   getProfileIfExists() {
-    const token = localStorage.getItem("authToken")
+    const token = localStorage.getItem('authToken')
 
   }
 }

@@ -13,4 +13,14 @@
   >
     My Profile
   </button>
+  <button
+    *ngIf="authService.loggedIn"
+    routerLink="/"
+    routerLinkActive="active"
+    md-button
+    color="accent"
+    (click)="authService.logout()"
+  >
+    Logout
+  </button>
 </md-toolbar>

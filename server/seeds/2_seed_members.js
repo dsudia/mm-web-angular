@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 exports.seed = function(knex, Promise) {
     const hashedPass = bcrypt.hashSync('TestPassword!1', 10);
