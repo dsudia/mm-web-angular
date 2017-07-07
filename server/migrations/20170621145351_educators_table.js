@@ -8,6 +8,7 @@ exports.up = function(knex, Promise) {
       table.string('avatar_url');
       table.text('description');
       table.timestamps(true, true);
+      return;
   })
 };
 

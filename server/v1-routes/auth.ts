@@ -1,7 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import * as bcrypt from 'bcryptjs';
-// import { omit, pick, merge } from 'ramda';
-import { Registrant, SecureRequest } from './../interfaces';
+import { Registrant, SecureRequest } from '../interfaces';
 import { AuthQuerier } from '../queries/auth';
 import {
     BadLogin,
@@ -48,7 +47,7 @@ export class AuthRouter {
         return q.insertNewUser(user)
         .then((id: string) => {
             const authToken = this.makeToken(id, user.memberType);
-            res.status(201).send({authToken});
+            res.status(201).send({authToken, memberType: user.memberType});
             return;
         })
         .catch((err: string) => {
@@ -76,7 +75,7 @@ export class AuthRouter {
                 return res.status(401).json(BadLogin);
             }
             const authToken = this.makeToken((<string> member.id), member.memberType);
-            return res.status(200).send({authToken});
+            return res.status(200).send({authToken, memberType: member.memberType});
         })
         .catch((err: string) => {
             console.error(err);
@@ -123,88 +122,6 @@ export class AuthRouter {
         this.router.get('/', this.login.bind(this));
         this.router.put('/', this.changePassword.bind(this));
     }
-
-    // private loginSchool(loginProfile: LoginProfile, req: Request, res: Response, next: NextFunction) {
-    //     return Promise.all([
-    //     knex(`schools`).where('id', loginProfile.id),
-    //     knex('matches')
-    //         .whereIn( 'school_matching_profile_id',
-    //                 knex('school_matching_profiles').select('id')
-    //                     .where('school_id', loginProfile.id)
-    //                     .whereNot('educator_denial', true)
-    //                     .whereNot('school_denial', true))
-    //         .innerJoin('educators', 'matches.educator_id', 'educators.id')
-    //         .select([
-    //         'matches.id as id',
-    //         'matches.percentage as percentage',
-    //         'matches.school_confirmation as my_confirmation',
-    //         'matches.educator_confirmation as their_confirmation',
-    //         'educators.display_name as display_name',
-    //         'educators.avatar_url as avatar_url',
-    //         'educators.description as description',
-    //         ]),
-    //     knex('school_matching_profiles').where('school_id', loginProfile.id),
-    //     ])
-    //     .then(([profile, matches, matchingProfiles]: [ School[], Match[], SchoolMatchingProfile[]]) => {
-    //     req.session.id = loginProfile.id;
-    //     res.status(200).send({
-    //         profile: convertObjectKeysToCamel(omit(['id'],  profile[0])),
-    //         matches: matches.map(convertObjectKeysToCamel),
-    //         matchingProfiles: matchingProfiles.map(convertObjectKeysToCamel),
-    //     });
-    //     })
-    //     .catch(error => {
-    //     console.error(error);
-    //     res.status(500).send('an error occured, please contact support');
-    //     });
-    // }
-
-    // private loginEducator(loginProfile: LoginProfile, req: Request, res: Response, next: NextFunction) {
-    //     return Promise.all([
-    //     knex('educators').where('id', loginProfile.id),
-    //     knex('matches')
-    //         .where('educator_id', loginProfile.id)
-    //         .whereNot('educator_denial', true)
-    //         .whereNot('school_denial', true)
-    //         .innerJoin( 'school_matching_profiles',
-    //                     'matches.school_matching_profile_id', 'school_matching_profiles.id')
-    //         .innerJoin('schools', 'school_matching_profiles.school_id', 'schools.id')
-    //         .select([
-    //         'matches.id as id',
-    //         'matches.percentage as percentage',
-    //         'matches.educator_confirmation as my_confirmation',
-    //         'matches.school_confirmation as their_confirmation',
-    //         'schools.display_name as display_name',
-    //         'schools.avatar_url as avatar_url',
-    //         'schools.description as description',
-    //         ]),
-    //     ])
-    //     .then(([profile, matches]: [ Educator, Match[] ]) => {
-    //     const matchingKeys = [
-    //         'age_ranges', 'age_ranges_wgt',
-    //         'cals', 'cals_wgt',
-    //         'org_types', 'org_types_wgt',
-    //         'loc_types', 'loc_types_wgt',
-    //         'ed_types', 'ed_types_wgt',
-    //         'sizes', 'sizes_wgt',
-    //         'trainings', 'trainings_wgt',
-    //         'traits', 'traits_wgt',
-    //         'states', 'states_wgt',
-    //     ];
-    //     const sanitizedProfile = merge(omit([...matchingKeys, 'id'], profile), { email: req.body.email });
-    //     const sanitizedMatchingProfile = pick(matchingKeys, profile);
-    //     req.session.id = profile.id;
-    //     res.status(200).send({
-    //         profile: convertObjectKeysToCamel(sanitizedProfile),
-    //         matches: matches.map(convertObjectKeysToCamel),
-    //         matchingProfiles: [convertObjectKeysToCamel(sanitizedMatchingProfile)],
-    //     });
-    //     })
-    //     .catch(error => {
-    //     console.error(error);
-    //     res.status(500).send('an error occured, please contact support');
-    //     });
-    // }
 }
 
 export const authRouter = new AuthRouter().router;

@@ -30,8 +30,9 @@ export class AuthService {
     })
     .toPromise()
     .then(response => {
-      const token = response.json().authToken;
-      localStorage.setItem('authToken', token);
+      const body = response.json();
+      localStorage.setItem('authToken', body.authToken);
+      localStorage.setItem('memberType', body.memberType);
       this.loggedIn = true
     })
     .catch(err => {
@@ -43,8 +44,10 @@ export class AuthService {
     return this.http.get(`/api/v1/auth?email=${email}&password=${password}`)
     .toPromise()
     .then(response => {
-      const token = response.json().authToken;
-      localStorage.setItem('authToken', token);
+      const body = response.json();
+      console.log(body);
+      localStorage.setItem('authToken', body.authToken);
+      localStorage.setItem('memberType', body.memberType);
       this.loggedIn = true;
     })
   }

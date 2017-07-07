@@ -1,4 +1,4 @@
-import { StringKey, Registrant } from './../interfaces';
+import { StringKey, Registrant } from '../interfaces';
 import { camel, snake } from 'change-case';
 import { pick, omit } from 'ramda';
 

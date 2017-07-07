@@ -36,3 +36,8 @@ export const UpdatePasswordFailure: ErrorResponse = {
     code: 2002,
     message: 'error updating member password'
 };
+
+export const FindEducatorFailure: ErrorResponse = {
+  code: 20003,
+  message: 'could not locate educator profile'
+};

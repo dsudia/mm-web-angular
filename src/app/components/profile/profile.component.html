@@ -1,3 +1,17 @@
-<p>
-  Thanks for getting this far! The next thing we're working on is the ability to complete your personal profile. We'll send you an email when that is ready.
-</p>
+<md-card *ngIf="profile">
+  <md-card-header>
+    <md-card-title>My Profile</md-card-title>
+  </md-card-header>
+  <img md-card-image src="{{profile.avatarUrl}}">
+  <md-card-content>
+    <p *ngIf="profile.firstName">Name: {{profile.firstName}} {{profile.lastName}}</p>
+    <p *ngIf="profile.name">Name: {{profile.name}}</p>
+    <p>Display name: {{profile.displayName}}</p>
+    <p>Description: {{profile.description}}</p>
+  </md-card-content>
+</md-card>
+
+<md-card *ngIf="!profile">
+  <h3>Thanks for signing up! Get started by filling out some basic information.</h3>
+</md-card>
+
