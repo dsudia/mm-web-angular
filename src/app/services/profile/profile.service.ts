@@ -6,6 +6,7 @@ import { Educator, School} from '../../interfaces'
 
 @Injectable()
 export class ProfileService {
+  profile: Educator | School
 
   constructor(private http: Http) { }
 
@@ -38,10 +39,10 @@ export class ProfileService {
         profile = (<School> profile);
         break;
       }
-      return profile;
+      this.profile = profile;
     })
     .catch(() => {
-      return null;
+      this.profile = null;
     })
   }
 
@@ -74,7 +75,10 @@ export class ProfileService {
             resProfile = (<School> profile);
             break;
         }
-        return profile;
+        this.profile = resProfile;
+      })
+      .catch(() => {
+        this.profile = null;
       })
   }
 }

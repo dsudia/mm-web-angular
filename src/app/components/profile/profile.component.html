@@ -1,17 +1,25 @@
-<md-card *ngIf="profile">
+<md-card *ngIf="profileService.profile">
   <md-card-header>
     <md-card-title>My Profile</md-card-title>
   </md-card-header>
-  <img md-card-image src="{{profile.avatarUrl}}">
+  <img md-card-image src="{{profileService.profile.avatarUrl}}">
   <md-card-content>
-    <p *ngIf="profile.firstName">Name: {{profile.firstName}} {{profile.lastName}}</p>
-    <p *ngIf="profile.name">Name: {{profile.name}}</p>
-    <p>Display name: {{profile.displayName}}</p>
-    <p>Description: {{profile.description}}</p>
+    <p *ngIf="profileService.profile.firstName">
+      Name: {{profileService.profile.firstName}} {{profileService.profile.lastName}}
+    </p>
+    <p *ngIf="profileService.profile.name">
+      Name: {{profileService.profile.name}}
+    </p>
+    <p>
+      Display name: {{profileService.profile.displayName}}
+    </p>
+    <p>
+      Description: {{profileService.profile.description}}
+    </p>
   </md-card-content>
 </md-card>
 
-<md-card *ngIf="!profile">
+<md-card *ngIf="!profileService.profile">
   <h3>Thanks for signing up! Get started by filling out some basic information.</h3>
 </md-card>
 

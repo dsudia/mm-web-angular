@@ -11,18 +11,11 @@ import { Educator, School } from '../../../../server/interfaces';
 })
 export class ProfileComponent implements OnInit {
   memberType: number;
-  profile: Educator | School;
 
   constructor(private profileService: ProfileService) {}
 
   ngOnInit() {
-    this.profileService.getProfile()
-    .then((profile: Educator | School) => {
-      this.profile = profile;
-    })
-    .catch(() => {
-      this.profile = null;
-    });
+    this.profileService.getProfile();
   }
 
   makeEducatorDisplayName(firstName: string, lastName: string) {

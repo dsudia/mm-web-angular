@@ -51,9 +51,36 @@ export class RegisterFormDialogComponent implements OnInit {
   backendError: Error;
 
   types = [
-    { value: 1, viewValue: "Educator" },
-    { value: 2, viewValue: "School" }
+    { value: 1, viewValue: 'Educator' },
+    { value: 2, viewValue: 'School' }
   ]
+
+  formErrors = {
+    email: '',
+    password: '',
+    passconf: '',
+  }
+
+  validationMessages = {
+    'email': {
+      'required': 'email is required',
+      'minlength': 'email must be at least 7 characters long',
+      'maxlength': 'email must be less than 50 characters long',
+      'email': 'email must be a valid email'
+    },
+    'password': {
+      'required': 'password is required',
+      'minlength': 'password must be at least 8 characters long',
+      'maxlength': 'password must be less than 50 characters long',
+      'schemaFail': 'password must contain uppercase, lowercase, number and symbol'
+    },
+    'passconf': {
+      'required': 'password confirmation is required',
+      'minlength': 'password confirmation must be at least 8 characters long',
+      'maxlength': 'password confirmation must be less than 50 characters long',
+      'matchpassword': 'password confirmation must match password'
+    }
+  }
 
   constructor(
     public dialogRef: MdDialogRef<RegisterFormDialogComponent>,
@@ -124,33 +151,6 @@ export class RegisterFormDialogComponent implements OnInit {
           this.formErrors[field] += messages[key] + '; ';
         }
       }
-    }
-  }
-
-  formErrors = {
-    email: '',
-    password: '',
-    passconf: '',
-  }
-
-  validationMessages = {
-    'email': {
-      'required': 'email is required',
-      'minlength': 'email must be at least 7 characters long',
-      'maxlength': 'email must be less than 50 characters long',
-      'email': 'email must be a valid email'
-    },
-    'password': {
-      'required': 'password is required',
-      'minlength': 'password must be at least 8 characters long',
-      'maxlength': 'password must be less than 50 characters long',
-      'schemaFail': 'password must contain uppercase, lowercase, number and symbol'
-    },
-    'passconf': {
-      'required': 'password confirmation is required',
-      'minlength': 'password confirmation must be at least 8 characters long',
-      'maxlength': 'password confirmation must be less than 50 characters long',
-      'matchpassword': 'password confirmation must match password'
     }
   }
 

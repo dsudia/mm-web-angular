@@ -16,23 +16,25 @@ import { CovalentMessageModule } from '@covalent/core'
 
 // Components
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { HowItWorksComponent } from './components/how-it-works/how-it-works.component';
+import { CreateProfileFormButtonComponent,
+         CreateProfileFormDialogComponent
+       } from './components/create-profile-form/create-profile-form.component'
+import { FaqButtonComponent, FaqDialogComponent } from './components/faq/faq.component';
 import { ForSchoolsComponent } from './components/for-schools/for-schools.component';
 import { ForTeachersComponent } from './components/for-teachers/for-teachers.component';
-import { FaqButtonComponent, FaqDialogComponent } from './components/faq/faq.component';
-import { TermsButtonComponent, TermsDialogComponent } from './components/terms/terms.component';
+import { HomeComponent } from './components/home/home.component';
+import { HowItWorksComponent } from './components/how-it-works/how-it-works.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterFormButtonComponent, RegisterFormDialogComponent } from './components/register-form/register-form.component';
 import { SignInFormButtonComponent, SignInFormDialogComponent } from './components/sign-in-form/sign-in-form.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { ToolbarComponent }
- from './components/toolbar/toolbar.component'
+import { TermsButtonComponent, TermsDialogComponent } from './components/terms/terms.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component'
 
 // Services
 import { AuthService } from './services/auth/auth.service';
 import { ProfileService } from './services/profile/profile.service'
 
-import { AuthGuard, appRoutes } from './routes'
+import { AuthGuard, appRoutes } from './routes';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,8 @@ import { AuthGuard, appRoutes } from './routes'
     SignInFormButtonComponent,
     SignInFormDialogComponent,
     ProfileComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    CreateProfileFormComponent
   ],
   entryComponents: [
     FaqDialogComponent,
