@@ -1,11 +1,11 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { Educator } from '../interfaces'
-import { EducatorsQuerier } from '../queries/educators';
-import { FindEducatorFailure } from './errors';
+import { School } from '../interfaces'
+import { SchoolsQuerier } from '../queries/schools';
+import { FindSchoolFailure } from './errors';
 
-export class EducatorsRouter {
+export class SchoolsRouter {
   router: Router;
-  q = new EducatorsQuerier()
+  q = new SchoolsQuerier()
 
   constructor() {
     this.router = Router();
@@ -13,22 +13,22 @@ export class EducatorsRouter {
   }
 
   updateProfile(req: Request, res: Response, next: NextFunction) {
-    return this.q.insertOrUpdateEducator(req.user.id, req.body)
-    .then((profile: Educator) => {
+    return this.q.insertOrUpdateSchool(req.user.id, req.body)
+    .then((profile: School) => {
       res.status(201).json(profile);
     })
   }
 
   getProfile(req: Request, res: Response, next: NextFunction) {
-    return this.q.getEducator(req.user.id)
-    .then(([profile]: [Educator]) => {
+    return this.q.getSchool(req.user.id)
+    .then(([profile]: [School]) => {
       if (profile) {
         return res.status(200).json(profile);
       }
-      return res.status(404).send(FindEducatorFailure);
+      return res.status(404).send(FindSchoolFailure);
     })
     .catch(() => {
-      res.status(400).json(FindEducatorFailure)
+      res.status(400).json(FindSchoolFailure)
     })
   }
 
@@ -41,4 +41,4 @@ export class EducatorsRouter {
 
 }
 
-export const educatorsRouter = new EducatorsRouter().router
+export const schoolsRouter = new SchoolsRouter().router

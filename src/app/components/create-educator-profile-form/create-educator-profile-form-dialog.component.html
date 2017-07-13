@@ -1,0 +1,65 @@
+<div md-dialog-title>Information about yourself.</div>
+<div md-dialog-content class="form-width">
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit(profileForm)" novalidate>
+    <md-input-container class="full-width">
+      <input
+        mdInput
+        class="form-control"
+        formControlName="firstName"
+        placeholder="First Name"
+        name="firstName"
+      />
+      <md-error *ngIf="formErrors.firstName">
+        {{formErrors.firstName}}
+      </md-error>
+    </md-input-container>
+    <br/>
+    <md-input-container class="full-width">
+      <input
+        mdInput
+        class="form-control"
+        formControlName="lastName"
+        placeholder="Last Name"
+        name="lastName"
+      />
+      <md-error *ngIf="formErrors.lastName">
+        {{formErrors.lastName}}
+      </md-error>
+    </md-input-container>
+    <br/>
+    <md-input-container class="full-width">
+      <textarea
+        mdInput
+        class="form-control"
+        formControlName="description"
+        placeholder="About you"
+        name="description"
+      ></textarea>
+      <md-error *ngIf="formErrors.description">
+        {{formErrors.description}}
+      </md-error>
+    </md-input-container>
+    <br/>
+    <br/>
+    <td-message
+      #errorMessage
+      label="Oops!"
+      sublabel="error inserting new member into the database"
+      color="red"
+      icon="error"
+      *ngIf="backendError"
+    >
+      <button td-message-actions md-icon-button (click)="errorMessage.close()"><i class="material-icons">cancel</i></button>
+    </td-message>
+    <md-dialog-actions>
+      <button
+        md-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!profileForm.valid"
+      >
+        Continue!
+      </button>
+    </md-dialog-actions>
+  </form>
+</div>

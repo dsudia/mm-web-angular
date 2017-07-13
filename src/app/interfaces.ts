@@ -20,29 +20,31 @@ export interface MatchingProfile {
     statesWgt: number;
 }
 
-export interface Educator {
-    memberType: string;
-    id: number;
-    displayName: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    active: boolean;
-    avatarURL: string;
-    description: string;
-    matchingProfile: MatchingProfile;
+export interface Member {
+  memberType: number;
+  id: string;
+  displayName?: string;
+  active?: boolean;
+  avatarURL?: string;
+  matchingProfile?: MatchingProfile;
 }
 
-export interface School {
-    memberType: string;
-    id: number;
-    displayName: string;
-    name: string;
-    active: boolean;
-    avatarURL: string;
-    description: string;
-    matchingProfiles: MatchingProfile[];
+export interface EducatorBasics {
+  firstName?: string;
+  lastName?: string;
+  description?: string;
 }
+
+export interface Educator extends Member, EducatorBasics {
+  email: string;
+}
+
+export interface SchoolBasics {
+  name?: string;
+  description?: string;
+}
+
+export interface School extends Member, SchoolBasics { }
 
 export interface UserState {
   memberType: string;

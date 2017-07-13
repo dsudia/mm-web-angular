@@ -38,6 +38,10 @@ export const UpdatePasswordFailure: ErrorResponse = {
 };
 
 export const FindEducatorFailure: ErrorResponse = {
-  code: 20003,
+  code: 2003,
+  message: 'could not locate educator profile'
+};
+export const FindSchoolFailure: ErrorResponse = {
+  code: 2004,
   message: 'could not locate educator profile'
 };

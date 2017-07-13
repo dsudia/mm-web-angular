@@ -41,11 +41,10 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    return this.http.get(`/api/v1/auth?email=${email}&password=${password}`)
+    return this.http.get(`http://localhost:3000/api/v1/auth?email=${email}&password=${password}`)
     .toPromise()
     .then(response => {
       const body = response.json();
-      console.log(body);
       localStorage.setItem('authToken', body.authToken);
       localStorage.setItem('memberType', body.memberType);
       this.loggedIn = true;

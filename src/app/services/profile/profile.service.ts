@@ -1,14 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http'
-import 'rxjs/add/operator/toPromise'
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
+import { merge } from 'ramda';
 
-import { Educator, School} from '../../interfaces'
+import { Educator, EducatorBasics, School, SchoolBasics} from '../../interfaces'
 
 @Injectable()
 export class ProfileService {
-  profile: Educator | School
+
+  private _profile = new BehaviorSubject<Educator | School>(this.defaultProfile())
 
   constructor(private http: Http) { }
+
+  private defaultProfile(): School {
+    return {
+      memberType: 0,
+      name: '',
+      id: '',
+    }
+  }
+
+  get profile(): Observable<Educator | School> {
+    return this._profile.asObservable();
+  }
 
   getProfile() {
     const token = localStorage.getItem('authToken');
@@ -21,64 +35,47 @@ export class ProfileService {
     let endpoint: string;
     switch (memberType) {
       case 1:
-        endpoint = '/api/v1/educators/me';
+        endpoint = 'http://localhost:3000/api/v1/educators/me';
         break;
       case 2:
-        endpoint = '/api/v1/schools/me';
+        endpoint = 'http://localhost:3000/api/v1/schools/me';
         break;
     }
 
-    return this.http.get(endpoint, options).toPromise()
-    .then(response => {
-      let profile = response.json()[0];
-      switch (memberType) {
-      case 1:
-        profile = (<Educator> profile);
-        break;
-      case 2:
-        profile = (<School> profile);
-        break;
-      }
-      this.profile = profile;
+    return this.http.get(endpoint, options)
+    .map(res => res.json())
+    .flatMap((response) => {
+      this._profile.next(merge({ memberType: Number(localStorage.getItem('memberType')) }, response));
+      return Observable.of(response);
     })
-    .catch(() => {
-      this.profile = null;
-    })
+    .catch(error => {
+      this._profile.next(merge(this.defaultProfile(), { memberType: Number(localStorage.getItem('memberType')) }));
+      return Observable.of({});
+    });
   }
 
-  createProfile(profile: Educator | School) {
+  private patchProfile(uri, profile) {
     const token = localStorage.getItem('authToken');
-    const memberType = Number(localStorage.getItem('memberType'));
-
     const headers = new Headers();
     headers.append('authorization', token);
     const options = new RequestOptions({ headers: headers });
 
-    let endpoint: string;
-    switch (memberType) {
-      case 1:
-        endpoint = '/api/v1/educators/me';
-        break;
-      case 2:
-        endpoint = '/api/v1/schools/me';
-        break;
-    }
-
-    return this.http.post(endpoint, profile, options).toPromise()
-      .then(response => {
-        let resProfile = response.json();
-        switch (memberType) {
-          case 1:
-            resProfile = (<Educator> profile);
-            break;
-          case 2:
-            resProfile = (<School> profile);
-            break;
-        }
-        this.profile = resProfile;
-      })
-      .catch(() => {
-        this.profile = null;
+    return this.http.put(uri, profile, options).map(res => res.json())
+      .flatMap((response: Educator | School) => {
+        this._profile.next(merge({ memberType: Number(localStorage.getItem('memberType')) }, response));
+        return Observable.of(response);
       })
   }
+
+  patchEducatorProfile(profile: EducatorBasics) {
+    return this.patchProfile('http://localhost:3000/api/v1/educators/me', profile);
+  }
+
+  patchSchoolProfile(profile: SchoolBasics) {
+    return this.patchProfile('http://localhost:3000/api/v1/schools/me', profile);
+  }
+}
+
+export function isEducator(profile: Educator | School): profile is Educator {
+  return profile.memberType === 1;
 }

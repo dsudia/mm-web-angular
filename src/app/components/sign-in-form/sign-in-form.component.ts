@@ -103,7 +103,7 @@ export class SignInFormDialogComponent implements OnInit {
       this.router.navigate(['/profile'])
     })
     .catch(err => {
-      console.log(err.json())
+      console.error(err.json())
       this.backendError = err;
     })
   }

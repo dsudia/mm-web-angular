@@ -1,25 +1,26 @@
-<md-card *ngIf="profileService.profile">
+<md-card *ngIf="profileComplete()">
   <md-card-header>
     <md-card-title>My Profile</md-card-title>
   </md-card-header>
   <img md-card-image src="{{profileService.profile.avatarUrl}}">
   <md-card-content>
-    <p *ngIf="profileService.profile.firstName">
-      Name: {{profileService.profile.firstName}} {{profileService.profile.lastName}}
+    <p *ngIf="profile.firstName">
+      Name: {{profile.firstName}} {{profile.lastName}}
     </p>
-    <p *ngIf="profileService.profile.name">
-      Name: {{profileService.profile.name}}
-    </p>
-    <p>
-      Display name: {{profileService.profile.displayName}}
+    <p *ngIf="profile.name">
+      Name: {{profile.name}}
     </p>
     <p>
-      Description: {{profileService.profile.description}}
+      Display name: {{profile.displayName}}
+    </p>
+    <p>
+      Description: {{profile.description}}
     </p>
   </md-card-content>
+  <button md-raised-button color="primary" (click)="editProfile()">Edit Profile</button>
 </md-card>
 
-<md-card *ngIf="!profileService.profile">
+<md-card *ngIf="!profileComplete()">
   <h3>Thanks for signing up! Get started by filling out some basic information.</h3>
 </md-card>
 

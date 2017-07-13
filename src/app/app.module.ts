@@ -16,9 +16,12 @@ import { CovalentMessageModule } from '@covalent/core'
 
 // Components
 import { AppComponent } from './app.component';
-import { CreateProfileFormButtonComponent,
-         CreateProfileFormDialogComponent
-       } from './components/create-profile-form/create-profile-form.component'
+import {
+  CreateEducatorProfileFormDialogComponent,
+} from './components/create-educator-profile-form/create-educator-profile-form.component';
+import {
+  CreateSchoolProfileFormDialogComponent,
+} from './components/create-school-profile-form/create-school-profile-form.component';
 import { FaqButtonComponent, FaqDialogComponent } from './components/faq/faq.component';
 import { ForSchoolsComponent } from './components/for-schools/for-schools.component';
 import { ForTeachersComponent } from './components/for-teachers/for-teachers.component';
@@ -53,9 +56,12 @@ import { AuthGuard, appRoutes } from './routes';
     SignInFormDialogComponent,
     ProfileComponent,
     ToolbarComponent,
-    CreateProfileFormComponent
+    CreateEducatorProfileFormDialogComponent,
+    CreateSchoolProfileFormDialogComponent
   ],
   entryComponents: [
+    CreateEducatorProfileFormDialogComponent,
+    CreateSchoolProfileFormDialogComponent,
     FaqDialogComponent,
     RegisterFormDialogComponent,
     SignInFormDialogComponent,

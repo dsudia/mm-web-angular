@@ -1,27 +1,76 @@
-import { Component, OnInit } from '@angular/core';
-import { camel } from 'change-case';
 
-import { ProfileService } from '../../services/profile/profile.service';
-import { Educator, School } from '../../../../server/interfaces';
+import { Observable, Subscription } from 'rxjs/Rx';
+import { MdDialog } from '@angular/material';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { camel } from 'change-case';
+import { merge } from 'ramda';
+
+import { CreateEducatorProfileFormDialogComponent } from './../create-educator-profile-form/create-educator-profile-form.component';
+import { CreateSchoolProfileFormDialogComponent } from './../create-school-profile-form/create-school-profile-form.component';
+import { ProfileService, isEducator } from '../../services/profile/profile.service';
+import { Educator, School } from '../../interfaces';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-profile',
+  styleUrls: ['./profile.component.scss'],
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
-  memberType: number;
+export class ProfileComponent implements OnInit, OnDestroy {
+  profile: Educator | School;
+  profileSubscription: Subscription;
 
-  constructor(private profileService: ProfileService) {}
+  constructor(private profileService: ProfileService, public dialog: MdDialog, private cd: ChangeDetectorRef) {
+    this.profileSubscription = this.profileService.profile.subscribe(this.updateProfile.bind(this));
+  }
+
+  private updateProfile(profile) {
+    this.profile = profile;
+    this.cd.markForCheck();
+  }
 
   ngOnInit() {
-    this.profileService.getProfile();
+    this.profileService.getProfile().subscribe(profile => {
+      this.openProfileForEditingIfNeeded();
+    });
   }
 
-  makeEducatorDisplayName(firstName: string, lastName: string) {
-    const lastInitial = lastName.split('')[0].toUpperCase();
-    firstName = camel(firstName);
-    return `${firstName}${lastInitial}`;
+  ngOnDestroy() {
+    this.profileSubscription.unsubscribe();
   }
 
+  openProfileForEditingIfNeeded() {
+    if (this.profile.memberType !== 0 && !this.profileComplete()) {
+      this.editProfile();
+    }
+  }
+
+  editProfile() {
+    if (isEducator(this.profile)) {
+      const dialogRef = this.dialog.open(CreateEducatorProfileFormDialogComponent, {
+        width: '50%',
+        height: '70%',
+        disableClose: true
+      });
+      dialogRef.componentInstance.profile = this.profile;
+    } else {
+      const dialogRef = this.dialog.open(CreateSchoolProfileFormDialogComponent, {
+        width: '50%',
+        height: '70%',
+        disableClose: true
+      });
+      dialogRef.componentInstance.profile = this.profile;
+    }
+  }
+
+  profileComplete() {
+    if (this.profile.memberType !== 0) {
+      if (isEducator(this.profile)) {
+        return this.profile.firstName && this.profile.lastName && this.profile.description;
+      } else {
+        return this.profile.name && this.profile.description;
+      }
+    }
+    return false;
+  }
 }
