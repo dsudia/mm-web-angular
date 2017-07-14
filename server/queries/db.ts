@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'production') {
     client: 'pg',
     connection:  {
         host: 'localhost',
-        user: 'benhernandez',
+        user: 'dsudia',
         password: '',
         database: 'mm'
     },

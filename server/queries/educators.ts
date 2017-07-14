@@ -1,7 +1,7 @@
 import { knex } from './db';
 import { Educator } from '../interfaces'
 import { merge } from 'ramda';
-import { camel } from 'change-case';
+import { pascal } from 'change-case';
 
 export class EducatorsQuerier {
   getEducator(id: string) {
@@ -61,7 +61,7 @@ export class EducatorsQuerier {
 
 function generateProfile(educator: Educator) {
   return {
-    display_name: `${educator.lastName[0].toUpperCase()}${camel(educator.firstName)}`,
+    display_name: `${pascal(educator.firstName)}${educator.lastName[0].toUpperCase()}`,
     first_name: educator.firstName,
     last_name: educator.lastName,
     description: educator.description,

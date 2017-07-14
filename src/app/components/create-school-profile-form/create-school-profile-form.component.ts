@@ -30,7 +30,7 @@ export class CreateSchoolProfileFormDialogComponent implements OnInit {
 
   validationMessages = {
     name: {
-      required: 'First name is required',
+      required: 'School name is required',
     },
     description: {
       required: 'Description is required',
