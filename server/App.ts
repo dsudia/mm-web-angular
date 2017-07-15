@@ -5,10 +5,11 @@ import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as jwt from 'express-jwt';
-const xray: any = require('aws-xray-sdk')
+const xray: any = require('aws-xray-sdk');
 import { authRouter } from './v1-routes/auth';
 import { educatorsRouter } from './v1-routes/educators';
 import { schoolsRouter } from './v1-routes/schools';
+import { avatarsRouter } from './v1-routes/avatars';
 import { InvalidToken } from './v1-routes/errors';
 
 class App {
@@ -31,7 +32,7 @@ class App {
         this.express.use(bodyParser.urlencoded({ extended: false }));
         this.express.use('/', express.static(path.join(process.cwd(), 'dist/client')));
         this.express.use('/healthcheck', (req, res, next ) => {
-          res.send(200);
+          res.sendStatus(200);
         });
         this.express.use(jwt({
             secret: process.env.JWT_SECRET || 'shhhh',
@@ -61,6 +62,7 @@ class App {
         this.express.use('/api/v1/auth', authRouter);
         this.express.use('/api/v1/educators', educatorsRouter);
         this.express.use('/api/v1/schools', schoolsRouter);
+        this.express.use('/api/v1/avatars', avatarsRouter);
         this.express.use(function(err: Error, req: Request, res: Response, next: NextFunction) {
             if (err.name === 'UnauthorizedError') {
                 res.status(401).json(InvalidToken);

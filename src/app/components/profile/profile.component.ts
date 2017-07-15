@@ -1,9 +1,7 @@
 
-import { Observable, Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Rx';
 import { MdDialog } from '@angular/material';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { camel } from 'change-case';
-import { merge } from 'ramda';
 
 import { CreateEducatorProfileFormDialogComponent } from './../create-educator-profile-form/create-educator-profile-form.component';
 import { CreateSchoolProfileFormDialogComponent } from './../create-school-profile-form/create-school-profile-form.component';
@@ -30,7 +28,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.profileService.getProfile().subscribe(profile => {
+    this.profileService.getProfile().subscribe(() => {
       this.openProfileForEditingIfNeeded();
     });
   }
@@ -64,7 +62,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   profileComplete() {
-    if (this.profile.memberType !== 0) {
+    if (this.profile.memberType === 1 || this.profile.memberType === 2) {
       if (isEducator(this.profile)) {
         return this.profile.firstName && this.profile.lastName && this.profile.description;
       } else {

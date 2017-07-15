@@ -5,7 +5,7 @@ import { FindEducatorFailure } from './errors';
 
 export class EducatorsRouter {
   router: Router;
-  q = new EducatorsQuerier()
+  q = new EducatorsQuerier();
 
   constructor() {
     this.router = Router();
@@ -41,4 +41,4 @@ export class EducatorsRouter {
 
 }
 
-export const educatorsRouter = new EducatorsRouter().router
+export const educatorsRouter = new EducatorsRouter().router;

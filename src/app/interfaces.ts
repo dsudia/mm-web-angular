@@ -25,7 +25,7 @@ export interface Member {
   id: string;
   displayName?: string;
   active?: boolean;
-  avatarURL?: string;
+  avatarUrl?: string;
   matchingProfile?: MatchingProfile;
 }
 

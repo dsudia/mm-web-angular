@@ -29,6 +29,21 @@ export class EducatorsQuerier {
     })
   }
 
+  insertAvatarUrl(id: string, url: string) {
+    return knex('educators').returning([
+      'display_name as displayName',
+      'first_name as firstName',
+      'last_name as lastName',
+      'description',
+      'avatar_url as avatarUrl'
+    ])
+      .where({ id })
+      .update({ avatar_url: url })
+      .then((profiles: Educator[]) => {
+        return profiles[0];
+      })
+  }
+
   private insertEducator(id: string, educator: Educator) {
     return knex('educators').returning([
       'display_name as displayName',

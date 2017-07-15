@@ -20,6 +20,21 @@ export class SchoolsQuerier {
     })
   }
 
+  insertAvatarUrl(id: string, url: string) {
+    return knex('educators').returning([
+      'display_name as displayName',
+      'first_name as firstName',
+      'last_name as lastName',
+      'description',
+      'avatar_url as avatarUrl'
+    ])
+      .where({ id })
+      .update({ avatar_url: url })
+      .then((profiles: School[]) => {
+        return profiles[0];
+      })
+  }
+
   private insertSchool(id: string, school: School) {
     return knex('schools').returning(returning())
     .insert(merge(generateProfile(school), { id }))
