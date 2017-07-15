@@ -15,11 +15,15 @@ h1 {
   justify-content: space-around;
   align-items: flex-start;
   align-content: center;
-  margin: 2.5rem 0 2.5rem 0
+  margin: 2.5rem;
+}
+
+.for-category-card {
+  margin: 0 2rem;
 }
 
 .flex-item-vertical {
-    margin: 0 auto 1.25rem auto;
+  margin: 0 auto 1.25rem auto;
 }
 
 .mailing-list {

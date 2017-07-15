@@ -23,7 +23,7 @@ export class AuthService {
   }
 
   sendRegistration(email: string, password: string, memberType: number) {
-    return this.http.post('/api/v1/auth', {
+    return this.http.post('http://localhost:3000/api/v1/auth', {
       email,
       password,
       memberType
@@ -41,7 +41,7 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    return this.http.get(`api/v1/auth?email=${email}&password=${password}`)
+    return this.http.get(`http://localhost:3000/api/v1/auth?email=${email}&password=${password}`)
     .toPromise()
     .then(response => {
       const body = response.json();

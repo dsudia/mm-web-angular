@@ -36,10 +36,10 @@ export class ProfileService {
     let endpoint: string;
     switch (memberType) {
       case 1:
-        endpoint = '/api/v1/educators/me';
+        endpoint = 'http://localhost:3000/api/v1/educators/me';
         break;
       case 2:
-        endpoint = '/api/v1/schools/me';
+        endpoint = 'http://localhost:3000/api/v1/schools/me';
         break;
     }
 
@@ -69,11 +69,11 @@ export class ProfileService {
   }
 
   patchEducatorProfile(profile: EducatorBasics) {
-    return this.patchProfile('/api/v1/educators/me', profile);
+    return this.patchProfile('http://localhost:3000/api/v1/educators/me', profile);
   }
 
   patchSchoolProfile(profile: SchoolBasics) {
-    return this.patchProfile('/api/v1/schools/me', profile);
+    return this.patchProfile('http://localhost:3000/api/v1/schools/me', profile);
   }
 
   addAvatar(imageData: Base64EncodedString) {
@@ -86,7 +86,7 @@ export class ProfileService {
     const form = new FormData();
     // form.append('avatar', imageData, 'avatar.jpeg');
 
-    return this.http.post('/api/v1/avatars', form, options).subscribe()
+    return this.http.post('http://localhost:3000/api/v1/avatars', form, options).subscribe()
     // .map(res => {
     //   console.log(res);
     //   return res.json();
