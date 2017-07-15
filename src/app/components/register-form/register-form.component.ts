@@ -115,8 +115,8 @@ export class RegisterFormDialogComponent implements OnInit {
       ]],
       memberType: [1, [
         Validators.required,
-        Validators.min(0),
-        Validators.max(1)
+        Validators.min(1),
+        Validators.max(2)
       ]]
     });
 

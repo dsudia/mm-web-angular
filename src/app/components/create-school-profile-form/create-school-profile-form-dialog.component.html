@@ -1,12 +1,15 @@
 <div md-dialog-title>Information about your school.</div>
 <div md-dialog-content class="form-width">
   <form [formGroup]="profileForm" (ngSubmit)="onSubmit(profileForm)" novalidate>
-    <md-input-container class="full-width">
+    <md-input-container
+      class="full-width"
+      hintLabel="The name of your school."
+    >
       <input
         mdInput
         class="form-control"
         formControlName="name"
-        placeholder="Name"
+        placeholder="School Name"
         name="Name"
       />
       <md-error *ngIf="formErrors.name">
@@ -15,12 +18,15 @@
     </md-input-container>
     <br/>
     <br/>
-    <md-input-container class="full-width">
+    <md-input-container
+      class="full-width"
+      hintLabel="Write a few sentences introducing your school and why it's so awesome!"
+    >
       <textarea
         mdInput
         class="form-control"
         formControlName="description"
-        placeholder="About you"
+        placeholder="About your school"
         name="description"
       ></textarea>
       <md-error *ngIf="formErrors.description">

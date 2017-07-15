@@ -13,6 +13,7 @@ import { MdCardModule,
          MdToolbarModule
         } from '@angular/material';
 import { CovalentMessageModule } from '@covalent/core'
+import { MdTooltipModule } from '@angular/material';
 
 // Components
 import { AppComponent } from './app.component';
@@ -76,6 +77,7 @@ import { AuthGuard, appRoutes } from './routes';
     MdInputModule,
     MdSelectModule,
     MdToolbarModule,
+    MdTooltipModule,
     NoopAnimationsModule,
     ReactiveFormsModule,
     CovalentMessageModule,
