@@ -22,8 +22,6 @@ if (process.env.NODE_ENV === 'production') {
     client: 'pg',
     connection:  {
         host: 'localhost',
-        user: 'davesudia',
-        password: '',
         database: 'mm'
     },
     pool: {

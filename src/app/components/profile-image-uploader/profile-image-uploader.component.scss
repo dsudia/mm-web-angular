@@ -1,0 +1,23 @@
+:host {
+  .flex {
+    display: flex;
+  }
+
+  .img-preview {
+    border-radius: 50%;
+    flex: 1;
+    border: 1px solid black;
+  }
+
+  ly-cropping-img {
+    flex: 2;
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+
+  /deep/ .content-img {
+    min-height: 400px !important;
+  }
+}

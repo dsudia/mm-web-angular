@@ -20,21 +20,6 @@ export class SchoolsQuerier {
     })
   }
 
-  insertAvatarUrl(id: string, url: string) {
-    return knex('educators').returning([
-      'display_name as displayName',
-      'first_name as firstName',
-      'last_name as lastName',
-      'description',
-      'avatar_url as avatarUrl'
-    ])
-      .where({ id })
-      .update({ avatar_url: url })
-      .then((profiles: School[]) => {
-        return profiles[0];
-      })
-  }
-
   private insertSchool(id: string, school: School) {
     return knex('schools').returning(returning())
     .insert(merge(generateProfile(school), { id }))
@@ -54,12 +39,20 @@ export class SchoolsQuerier {
 }
 
 function generateProfile(school: School) {
-  return {
-    display_name: `${school.name.split(' ').map(word => word[0]).join('').toUpperCase()}`,
-    name: school.name,
-    description: school.description,
-    avatar_url: school.avatarUrl
+  let object;
+  if (school.displayName) {
+    object = merge({}, { display_name: `${school.name.split(' ').map(word => word[0]).join('').toUpperCase()}` });
   }
+  if (school.name) {
+    object = merge(object, { name: school.name });
+  }
+  if (school.description) {
+    object = merge(object, school.description);
+  }
+  if (school.avatarUrl) {
+    object = merge(object, { avatar_url: school.avatarUrl });
+  }
+  return object;
 }
 
 function returning() {

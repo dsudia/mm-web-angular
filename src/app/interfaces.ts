@@ -33,6 +33,7 @@ export interface EducatorBasics {
   firstName?: string;
   lastName?: string;
   description?: string;
+  avatarUrl?: string;
 }
 
 export interface Educator extends Member, EducatorBasics {
@@ -42,6 +43,7 @@ export interface Educator extends Member, EducatorBasics {
 export interface SchoolBasics {
   name?: string;
   description?: string;
+  avatarUrl?: string;
 }
 
 export interface School extends Member, SchoolBasics { }

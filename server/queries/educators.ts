@@ -8,13 +8,7 @@ export class EducatorsQuerier {
     return knex.where({
       id
     })
-    .select(
-      'display_name as displayName',
-      'first_name as firstName',
-      'last_name as lastName',
-      'description',
-      'avatar_url as avatarUrl'
-    )
+    .select(returning())
     .from('educators');
   }
 
@@ -29,29 +23,8 @@ export class EducatorsQuerier {
     })
   }
 
-  insertAvatarUrl(id: string, url: string) {
-    return knex('educators').returning([
-      'display_name as displayName',
-      'first_name as firstName',
-      'last_name as lastName',
-      'description',
-      'avatar_url as avatarUrl'
-    ])
-      .where({ id })
-      .update({ avatar_url: url })
-      .then((profiles: Educator[]) => {
-        return profiles[0];
-      })
-  }
-
   private insertEducator(id: string, educator: Educator) {
-    return knex('educators').returning([
-      'display_name as displayName',
-      'first_name as firstName',
-      'last_name as lastName',
-      'description',
-      'avatar_url as avatarUrl'
-    ])
+    return knex('educators').returning(returning())
     .insert(merge(generateProfile(educator), { id }))
     .then((profiles: Educator[]) => {
       return profiles[0];
@@ -59,13 +32,7 @@ export class EducatorsQuerier {
   }
 
   private updateEducator(id: string, educator: Educator) {
-    return knex('educators').returning([
-      'display_name as displayName',
-      'first_name as firstName',
-      'last_name as lastName',
-      'description',
-      'avatar_url as avatarUrl'
-    ])
+    return knex('educators').returning(returning())
     .where({ id })
     .update(generateProfile(educator))
     .then((profiles: Educator[]) => {
@@ -75,11 +42,31 @@ export class EducatorsQuerier {
 }
 
 function generateProfile(educator: Educator) {
-  return {
-    display_name: `${pascal(educator.firstName)}${educator.lastName[0].toUpperCase()}`,
-    first_name: educator.firstName,
-    last_name: educator.lastName,
-    description: educator.description,
-    avatar_url: educator.avatarUrl
+  let object;
+  if (educator.displayName) {
+    object = merge({}, { display_name: `${pascal(educator.firstName)}${educator.lastName[0].toUpperCase()}` });
   }
+  if (educator.firstName) {
+    object = merge(object, { first_name: educator.firstName });
+  }
+  if (educator.lastName) {
+    object = merge(object, { last_name: educator.lastName });
+  }
+  if (educator.description) {
+    object = merge(object, educator.description);
+  }
+  if (educator.avatarUrl) {
+    object = merge(object, { avatar_url: educator.avatarUrl });
+  }
+  return object;
+}
+
+function returning() {
+  return [
+    'display_name as displayName',
+    'first_name as firstName',
+    'last_name as lastName',
+    'description',
+    'avatar_url as avatarUrl'
+  ]
 }

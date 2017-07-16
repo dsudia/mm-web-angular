@@ -1,7 +1,7 @@
 <md-card *ngIf="profileComplete()">
   <md-card-header>
     <md-card-title>My Profile</md-card-title>
-    <img md-card-avatar src="http://via.placeholder.com/400x400">
+    <img md-card-avatar [src]="profile.avatarUrl ? profile.avatarUrl : 'http://via.placeholder.com/400x400'">
   </md-card-header>
   <md-card-content>
     <p *ngIf="profile.firstName">
@@ -18,4 +18,5 @@
     </p>
   </md-card-content>
   <button md-raised-button color="primary" (click)="editProfile()">Edit Profile</button>
+  <button md-raised-button color="primary" (click)="editProfilePicture()">{{ profile.avatarUrl ? 'Change Picture' : 'Upload Picture'}}</button>
 </md-card>

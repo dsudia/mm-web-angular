@@ -68,6 +68,7 @@ class App {
                 res.status(401).json(InvalidToken);
                 next();
             } else {
+              console.error('omg!', err);
                 res.status(500).json({
                     code: 5000,
                     message: 'Unknown server error, please contact support @ hello@montessorimatch.com'

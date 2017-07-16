@@ -1,11 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http'
+import { LyResizingCroppingImageModule } from 'angular2-resizing-cropping-image';
+
 
 import { MdCardModule,
+         MdIconModule,
          MdButtonModule,
          MdDialogModule,
          MdInputModule,
@@ -33,6 +36,7 @@ import { RegisterFormButtonComponent, RegisterFormDialogComponent } from './comp
 import { SignInFormButtonComponent, SignInFormDialogComponent } from './components/sign-in-form/sign-in-form.component';
 import { TermsButtonComponent, TermsDialogComponent } from './components/terms/terms.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component'
+import { ProfileImageUploaderComponent } from './components/profile-image-uploader/profile-image-uploader.component';
 
 // Services
 import { AuthService } from './services/auth/auth.service';
@@ -58,9 +62,11 @@ import { AuthGuard, appRoutes } from './routes';
     ProfileComponent,
     ToolbarComponent,
     CreateEducatorProfileFormDialogComponent,
-    CreateSchoolProfileFormDialogComponent
+    CreateSchoolProfileFormDialogComponent,
+    ProfileImageUploaderComponent
   ],
   entryComponents: [
+    ProfileImageUploaderComponent,
     CreateEducatorProfileFormDialogComponent,
     CreateSchoolProfileFormDialogComponent,
     FaqDialogComponent,
@@ -70,8 +76,10 @@ import { AuthGuard, appRoutes } from './routes';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     HttpModule,
     MdCardModule,
+    MdIconModule,
     MdButtonModule,
     MdDialogModule,
     MdInputModule,
@@ -81,7 +89,8 @@ import { AuthGuard, appRoutes } from './routes';
     NoopAnimationsModule,
     ReactiveFormsModule,
     CovalentMessageModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    LyResizingCroppingImageModule,
   ],
   providers: [
     AuthGuard,

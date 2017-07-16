@@ -1,0 +1,15 @@
+<label class="mat-raised-button mat-primary">
+  <input (change)="_img.imgChange($event)" type="file">
+  Choose Picture
+</label>
+
+<button md-icon-button (click)="_img.zoom('+')"><md-icon>zoom_in</md-icon></button>
+<button md-icon-button (click)="_img.zoom('-')"><md-icon>zoom_out</md-icon></button>
+<button md-icon-button (click)="_img.center()"><md-icon>center_focus_strong</md-icon></button>
+
+<div class="flex">
+  <img *ngIf="_img.imgCrop" class="img-preview" [src]="_img.imgCrop">
+  <ly-cropping-img #_img format="png"></ly-cropping-img>
+</div>
+
+<button md-raised-button color="primary" (click)="uploadPicture()">Upload!</button>

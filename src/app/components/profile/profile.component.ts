@@ -5,6 +5,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 
 import { CreateEducatorProfileFormDialogComponent } from './../create-educator-profile-form/create-educator-profile-form.component';
 import { CreateSchoolProfileFormDialogComponent } from './../create-school-profile-form/create-school-profile-form.component';
+import { ProfileImageUploaderComponent } from './../profile-image-uploader/profile-image-uploader.component';
 import { ProfileService, isEducator } from '../../services/profile/profile.service';
 import { Educator, School } from '../../interfaces';
 
@@ -59,6 +60,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
       });
       dialogRef.componentInstance.profile = this.profile;
     }
+  }
+
+  editProfilePicture() {
+    const dialogRef = this.dialog.open(ProfileImageUploaderComponent, {
+      width: '80%',
+      height: '80%',
+      disableClose: false
+    });
   }
 
   profileComplete() {

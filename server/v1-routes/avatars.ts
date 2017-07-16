@@ -1,8 +1,6 @@
-import { Router, Response, NextFunction } from 'express';
-import * as S3 from 'aws-sdk/clients/s3';
-const fileup: any = require('express-fileupload');
-import { Educator, School, UploadRequest } from '../interfaces'
-import { InvalidToken, S3Error } from './errors';
+import { Router, Response, Request, NextFunction } from 'express';
+import * as aws from 'aws-sdk';
+// import { Educator, School, UploadRequest } from '../interfaces'
 import { EducatorsQuerier } from '../queries/educators';
 import { SchoolsQuerier } from '../queries/schools';
 
@@ -10,53 +8,43 @@ export class AvatarsRouter {
   router: Router;
   eq = new EducatorsQuerier();
   sq = new SchoolsQuerier();
-  s3 = new S3();
+  s3: aws.S3;
+  S3_BUCKET = 'mm-profile-pictures'
 
   constructor() {
+    this.s3 = new aws.S3({
+      signatureVersion: 'v4'
+    });
     this.router = Router();
     this.init();
   }
 
-  addAvatar(req: UploadRequest, res: Response, next: NextFunction, eq = this.eq, sq = this.sq) {
-    console.log(req.files);
-    if (!req.files || !req.files.avatar) {
-      return res.status(400).send('No files were uploaded.');
-    }
-    const time = new Date().getTime();
-    const params = {
-      Body: req.files.avatar.data,
-      ACL: 'public-read',
-      Bucket: 'montessori-match-profile-pictures',
-      Key: `${req.user.id}.png`,
-      ServerSideEncryption: 'AES256',
-      Tagging: `dateCreated=${time}&memberId=${req.user.id}`
-    };
-
-    return this.s3.putObject(params).promise()
-    .then(() => {
-      const avatarUrl = `https://s3.amazonaws.com/montessori-match-profile-pictures/${req.user.id}.jpeg`;
-      if (Number(req.user.memberType) === 1) {
-        return eq.insertAvatarUrl(req.user.id, avatarUrl)
-        .then((profile: Educator) => {
-          return res.status(201).json(profile)
-        })
-      } else if (Number(req.user.memberType) === 2) {
-        return sq.insertAvatarUrl(req.user.id, avatarUrl)
-        .then((profile: School) => {
-          return res.status(201).json(profile)
-        })
-      } else {
-        return res.status(400).json(InvalidToken)
+    sign(req: Request, res: Response, next: NextFunction) {
+      const options = {
+        Bucket: this.S3_BUCKET,
+        Key: `${req.user.id}.png`,
+        Expires: 60,
+        ContentType: 'image/png',
+        ACL: 'public-read'
       }
-    })
-      .catch(error => {
-        console.log(error);
-        return res.status(200).json(S3Error);
-      });
-  }
+
+      const self = this;
+
+      this.s3.getSignedUrl('putObject', options, function(err, data){
+        if (err) {
+          return res.send('Error with S3');
+        }
+
+        return res.json({
+          fileName: `${req.user.id}.png`,
+          signedRequest: data,
+          url: `https://s3.amazonaws.com/${self.S3_BUCKET}/${req.user.id}.png`,
+        })
+      })
+    }
 
   init() {
-    this.router.post('/', fileup(), this.addAvatar.bind(this))
+    this.router.get('/sign', this.sign.bind(this));
   }
 }
 
