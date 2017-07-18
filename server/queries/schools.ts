@@ -1,6 +1,17 @@
-import { knex } from './db';
-import { School } from '../interfaces'
 import { merge } from 'ramda';
+import { knex } from './db';
+import { School, DatabaseTranslator } from '../interfaces'
+import { translate } from './helpers';
+
+const translator: DatabaseTranslator<School> = {
+  display_name: {
+    check(s) { return s.name !== undefined},
+    value(s) { return `${s.name.split(' ').map(word => word[0]).join('').toUpperCase()}` },
+  },
+  name: true,
+  description: true,
+  avatar_url: 'avatarUrl',
+};
 
 export class SchoolsQuerier {
   getSchool(id: string) {
@@ -22,7 +33,7 @@ export class SchoolsQuerier {
 
   private insertSchool(id: string, school: School) {
     return knex('schools').returning(returning())
-    .insert(merge(generateProfile(school), { id }))
+    .insert(merge(translate(school, translator), { id }))
     .then((profiles: School[]) => {
       return profiles[0];
     })
@@ -31,28 +42,11 @@ export class SchoolsQuerier {
   private updateSchool(id: string, school: School) {
     return knex('schools').returning(returning())
     .where({ id })
-    .update(generateProfile(school))
+    .update(translate(school, translator))
     .then((profiles: School[]) => {
       return profiles[0];
     })
   }
-}
-
-function generateProfile(school: School) {
-  let object;
-  if (school.displayName) {
-    object = merge({}, { display_name: `${school.name.split(' ').map(word => word[0]).join('').toUpperCase()}` });
-  }
-  if (school.name) {
-    object = merge(object, { name: school.name });
-  }
-  if (school.description) {
-    object = merge(object, school.description);
-  }
-  if (school.avatarUrl) {
-    object = merge(object, { avatar_url: school.avatarUrl });
-  }
-  return object;
 }
 
 function returning() {

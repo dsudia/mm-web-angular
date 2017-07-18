@@ -1,5 +1,14 @@
 import { Request } from 'express';
 
+export interface DatabaseTranslatorInner<T> {
+  check: (s: T) => boolean;
+  value: (s: T) => any;
+}
+
+export interface DatabaseTranslator<T> {
+  [ key: string]: DatabaseTranslatorInner<T> | boolean | keyof T;
+}
+
 export interface StringKey {
   [key: string]: any;
 }
@@ -40,6 +49,30 @@ export interface School extends StringKey {
   name: string;
   avatarUrl: string;
   description: string;
+}
+
+export interface MatchingProfile {
+  id?: number;
+  memberId?: number;
+  active?: boolean;
+  ageRanges?: number[];
+  ageRangesWeight?: number;
+  calendars?: number[];
+  calendarsWeight?: number;
+  educationTypes?: number[];
+  educationTypesWeight?: number;
+  locationTypes?: number[];
+  locationTypesWeight?: number;
+  organizationTypes?: number[];
+  organizationTypesWeight?: number;
+  sizes: number[];
+  sizesWeight: number;
+  states: number[];
+  statesWeight: number;
+  trainingTypes: number[];
+  trainingTypesWeight: number;
+  traits: number[];
+  traitsWeight: number;
 }
 
 export interface SchoolMatchingProfile extends StringKey {

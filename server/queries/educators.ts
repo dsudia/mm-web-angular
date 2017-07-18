@@ -1,7 +1,19 @@
-import { knex } from './db';
-import { Educator } from '../interfaces'
 import { merge } from 'ramda';
 import { pascal } from 'change-case';
+import { knex } from './db';
+import { translate } from './helpers';
+import { DatabaseTranslator, Educator } from '../interfaces'
+
+const translator: DatabaseTranslator<Educator> = {
+  display_name: {
+    check(e) { return e.firstName !== undefined && e.lastName !== undefined},
+    value(e) { return `${pascal(e.firstName)}${e.lastName[0].toUpperCase()}` },
+  },
+  first_name: 'firstName',
+  last_name: 'lastName',
+  description: true,
+  avatar_url: 'avatarUrl',
+};
 
 export class EducatorsQuerier {
   getEducator(id: string) {
@@ -25,7 +37,7 @@ export class EducatorsQuerier {
 
   private insertEducator(id: string, educator: Educator) {
     return knex('educators').returning(returning())
-    .insert(merge(generateProfile(educator), { id }))
+    .insert(merge(translate(educator, translator), { id }))
     .then((profiles: Educator[]) => {
       return profiles[0];
     })
@@ -34,31 +46,11 @@ export class EducatorsQuerier {
   private updateEducator(id: string, educator: Educator) {
     return knex('educators').returning(returning())
     .where({ id })
-    .update(generateProfile(educator))
+    .update(translate(educator, translator))
     .then((profiles: Educator[]) => {
       return profiles[0];
     })
   }
-}
-
-function generateProfile(educator: Educator) {
-  let object;
-  if (educator.displayName) {
-    object = merge({}, { display_name: `${pascal(educator.firstName)}${educator.lastName[0].toUpperCase()}` });
-  }
-  if (educator.firstName) {
-    object = merge(object, { first_name: educator.firstName });
-  }
-  if (educator.lastName) {
-    object = merge(object, { last_name: educator.lastName });
-  }
-  if (educator.description) {
-    object = merge(object, educator.description);
-  }
-  if (educator.avatarUrl) {
-    object = merge(object, { avatar_url: educator.avatarUrl });
-  }
-  return object;
 }
 
 function returning() {
