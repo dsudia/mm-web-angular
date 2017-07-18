@@ -5,7 +5,10 @@ export function translate(object: { [key: string]: any }, dt: DatabaseTranslator
   .map(key => [key, dt[key]])
   .reduce((o, [databaseKey, dti]: [string, DatabaseTranslatorInner<typeof object> | boolean | string]) => {
     if (dti === true) {
-      o[databaseKey] = object[databaseKey];
+      const value = object[databaseKey];
+      if (value !== undefined) {
+        o[databaseKey] = value;
+      }
     } else if (dti === false) {
       // Just so I can use isString below.
     } else if (isString(dti)) {

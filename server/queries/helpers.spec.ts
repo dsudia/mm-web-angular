@@ -17,6 +17,7 @@ describe('Helpers', () => {
           _b: true,
           _s: true,
           _n: true,
+          _u: true,
         }
         const tester: Tester = {
           _b: false,
@@ -39,7 +40,11 @@ describe('Helpers', () => {
         expect(result._n).toEqual(0);
       });
 
-      it('removes anything not in tester', () => {
+      it('does not include anything not in tester', () => {
+        expect(Reflect.ownKeys(result)).not.toContain('_u');
+      });
+
+      it('removes anything not in translator', () => {
         expect(result._x).toBeUndefined();
       });
     });
@@ -49,6 +54,7 @@ describe('Helpers', () => {
         b: boolean;
         s: string;
         n: number;
+        u?: any;
         x: any;
       }
       let result;
@@ -57,6 +63,7 @@ describe('Helpers', () => {
           _b: 'b',
           _s: 's',
           _n: 'n',
+          _u: 'u',
         }
         const tester: Tester = {
           b: false,
@@ -79,7 +86,11 @@ describe('Helpers', () => {
         expect(result._n).toEqual(0);
       });
 
-      it('removes anything not in tester', () => {
+      it('does not include anything not in tester', () => {
+        expect(Reflect.ownKeys(result)).not.toContain('_u');
+      });
+
+      it('removes anything not in database translator', () => {
         expect(result._x).toBeUndefined();
       });
     });
@@ -89,7 +100,8 @@ describe('Helpers', () => {
         _b: boolean;
         _s: string;
         _n: number;
-        x: any;
+        _u?: any;
+        _x: any;
       }
       let result;
       beforeAll(() => {
@@ -97,12 +109,13 @@ describe('Helpers', () => {
           _b: { check(s) { return !s._b}, value(s) { return !s._b } },
           _s: { check(s) { return s._s === 'some string' }, value(s) { return `added to ${s._s}`} },
           _n: { check(s) { return s._n === 0 }, value(s) { return s._n + 10 } },
+          _u: { check(s) { return true }, value(s) { return undefined } },
         }
         const tester: Tester = {
           _b: false,
           _s: 'some string',
           _n: 0,
-          x: {},
+          _x: {},
         }
         result = translate(tester, databaseTranslator);
       });
@@ -117,6 +130,10 @@ describe('Helpers', () => {
 
       it('keeps the number value', () => {
         expect(result._n).toEqual(10);
+      });
+
+      it('does not include anything not in tester', () => {
+        expect(Reflect.ownKeys(result)).not.toContain('_u');
       });
 
       it('removes anything not in tester', () => {
