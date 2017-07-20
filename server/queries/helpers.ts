@@ -3,11 +3,11 @@ import { DatabaseTranslator, DatabaseTranslatorInner, StringKey } from '../inter
 export function translate(object: { [key: string]: any }, dt: DatabaseTranslator<typeof object>): StringKey {
   return Reflect.ownKeys(dt)
   .map(key => [key, dt[key]])
-  .reduce((o, [databaseKey, dti]: [string, DatabaseTranslatorInner<typeof object> | boolean | string]) => {
+  .reduce((o: any, [databaseKey, dti]: [string, DatabaseTranslatorInner<typeof object> | boolean | string]) => {
     if (dti === true) {
       const value = object[databaseKey];
       if (value !== undefined) {
-        o[databaseKey] = value;
+        o[databaseKey] = value as any;
       }
     } else if (dti === false) {
       // Just so I can use isString below.

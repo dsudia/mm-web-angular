@@ -12,7 +12,7 @@
     "tag": "docker tag mm-web-angular:latest 362254585603.dkr.ecr.us-east-1.amazonaws.com/mm-web-angular:latest",
     "push": "docker push 362254585603.dkr.ecr.us-east-1.amazonaws.com/mm-web-angular:latest",
     "test": "ng test",
-    "test:server": "jasmine-ts 'server/**/*.spec.ts'",
+    "test:server": "jasmine-ts 'server/test/*.test.ts'",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

@@ -1,5 +1,5 @@
-import { DatabaseTranslator } from '../interfaces';
-import { translate } from './helpers';
+import { DatabaseTranslator } from '../../interfaces';
+import { translate } from '../../queries/helpers';
 
 describe('Helpers', () => {
   describe('translate', () => {

@@ -57,8 +57,8 @@ export class MatchingProfilesQueries {
     return knex('matching_profiles').returning('id')
     .insert(mainDbInsert)
     .then(matchingProfileId => {
-      const specialDbProfiles = pick(specialDatabases, fullDbProfile);
-      const promises: Promise<any>[] =
+      const specialDbProfiles: { [key: string]: any } = pick(specialDatabases, fullDbProfile);
+      const promises: PromiseLike<any>[] =
       Reflect.ownKeys(specialDbProfiles)
       .map((key: string) => insertMatchingProfileArrayValues(matchingProfileId, key, specialDbProfiles[key]))
       return Promise.all(promises);
@@ -78,7 +78,7 @@ export class MatchingProfilesQueries {
 function insertMatchingProfileArrayValues(matchingProfileId: string, key: string, values: any[]) {
   const databaseName = `matching_profile_${key}`;
   const columnName = `${key.substring(0, key.length - 1)}_id`;
-  const insertArray = values.map(v => ({ matching_profile_id: matchingProfileId, columnName: v}));
+  const insertArray = values.map(v => ({ matching_profile_id: matchingProfileId, [columnName]: v}));
   return knex(databaseName).insert(insertArray);
 }
 

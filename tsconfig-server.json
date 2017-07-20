@@ -28,6 +28,7 @@
     "dist",
     "e2e",
     "src",
-    "server/test/**/*"
+    "server/test/**/*",
+    "server/**/*.spec.js"
   ]
 }
