@@ -67,8 +67,6 @@ export interface MatchingProfile {
   organizationTypesWeight?: number;
   sizes: number[];
   sizesWeight: number;
-  states: number[];
-  statesWeight: number;
   trainingTypes: number[];
   trainingTypesWeight: number;
   traits: number[];

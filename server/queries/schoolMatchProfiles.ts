@@ -1,4 +1,4 @@
-import { merge } from 'ramda';
+import { merge, omit, pick } from 'ramda';
 import { knex } from './db';
 import { DatabaseTranslator, MatchingProfile } from '../interfaces'
 import { translate } from './helpers';
@@ -17,13 +17,23 @@ const translator: DatabaseTranslator<MatchingProfile> = {
   organization_types_weight: 'organizationTypesWeight',
   sizes: true,
   sizes_weight: 'sizesWeight',
-  states: true,
-  states_weight: 'statesWeight',
   training_types: 'trainingTypes',
   training_types_weight: 'trainingTypesWeight',
   traits: true,
   traits_weight: 'traitsWeight',
 };
+
+const specialDatabases = [
+  'age_ranges',
+  'calendars',
+  'education_types',
+  'location_types',
+  'organization_types',
+  'sizes',
+  'states',
+  'training_types',
+  'traits',
+]
 
 export class MatchingProfilesQueries {
   getProfile(id: string) {
@@ -41,11 +51,18 @@ export class MatchingProfilesQueries {
   }
 
   private insertProfile(memberId: string, profile: MatchingProfile) {
-    return knex('matching_profiles').returning(returning())
-    .insert(merge(translate(profile, translator), { memberId }))
-    .then((profiles: MatchingProfile[]) => {
-      return profiles[0];
-    })
+    const fullDbProfile = translate(profile, translator);
+    const mainDbProfile = omit(specialDatabases, fullDbProfile);
+    const mainDbInsert = merge(mainDbProfile, { member_id: memberId })
+    return knex('matching_profiles').returning('id')
+    .insert(mainDbInsert)
+    .then(matchingProfileId => {
+      const specialDbProfiles = pick(specialDatabases, fullDbProfile);
+      const promises: Promise<any>[] =
+      Reflect.ownKeys(specialDbProfiles)
+      .map((key: string) => insertMatchingProfileArrayValues(matchingProfileId, key, specialDbProfiles[key]))
+      return Promise.all(promises);
+    });
   }
 
   private updateProfile(profile: MatchingProfile) {
@@ -56,6 +73,13 @@ export class MatchingProfilesQueries {
       return profiles[0];
     })
   }
+}
+
+function insertMatchingProfileArrayValues(matchingProfileId: string, key: string, values: any[]) {
+  const databaseName = `matching_profile_${key}`;
+  const columnName = `${key.substring(0, key.length - 1)}_id`;
+  const insertArray = values.map(v => ({ matching_profile_id: matchingProfileId, columnName: v}));
+  return knex(databaseName).insert(insertArray);
 }
 
 function returning() {
