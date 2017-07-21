@@ -1,7 +1,7 @@
 import { merge } from 'ramda';
 import { knex } from './db';
 import { School, DatabaseTranslator } from '../interfaces'
-import { translate } from './helpers';
+import { translateToDb } from './helpers';
 
 const translator: DatabaseTranslator<School> = {
   display_name: {
@@ -33,7 +33,7 @@ export class SchoolsQuerier {
 
   private insertSchool(id: string, school: School) {
     return knex('schools').returning(returning())
-    .insert(merge(translate(school, translator), { id }))
+    .insert(merge(translateToDb(school, translator), { id }))
     .then((profiles: School[]) => {
       return profiles[0];
     })
@@ -42,7 +42,7 @@ export class SchoolsQuerier {
   private updateSchool(id: string, school: School) {
     return knex('schools').returning(returning())
     .where({ id })
-    .update(translate(school, translator))
+    .update(translateToDb(school, translator))
     .then((profiles: School[]) => {
       return profiles[0];
     })
