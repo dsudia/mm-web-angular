@@ -6,6 +6,6 @@ exports.seed = function(knex, Promise) {
       {id: 3, name: 'Public Innovation'},
       {id: 4, name: 'Private For-Profit, Single Owner'},
       {id: 5, name: 'Private For-Profit, Corporate Owner'},
-      {id: 6, name: 'Private Non-Profit'},
+      {id: 6, name: 'Private Non-Profit'}
   ]);
 };

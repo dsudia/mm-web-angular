@@ -5,6 +5,6 @@ exports.seed = function(knex, Promise) {
       {id: 2, name: 'MCI'},
       {id: 3, name: 'SNM'},
       {id: 4, name: 'CGS'},
-      {id: 5, name: 'Other'},
+      {id: 5, name: 'Other'}
   ]);
 };

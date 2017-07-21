@@ -34,7 +34,7 @@ const specialDatabases = [
   'states',
   'training_types',
   'traits',
-]
+];
 
 export class SchoolMatchingProfilesQueries {
 

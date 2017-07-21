@@ -5,6 +5,6 @@ exports.seed = function(knex, Promise) {
       {id: 2, name: "Associate's Degree"},
       {id: 3, name: "Bachelor's Degree"},
       {id: 4, name: "Master's Degree"},
-      {id: 5, name: "Doctorate"},
+      {id: 5, name: "Doctorate"}
   ]);
 };

@@ -6,10 +6,8 @@ import { SchoolsQuerier } from '../queries/schools';
 
 export class AvatarsRouter {
   router: Router;
-  eq = new EducatorsQuerier();
-  sq = new SchoolsQuerier();
   s3: aws.S3;
-  S3_BUCKET = 'mm-profile-pictures'
+  S3_BUCKET = 'mm-profile-pictures';
 
   constructor() {
     this.s3 = new aws.S3({
@@ -26,7 +24,7 @@ export class AvatarsRouter {
         Expires: 60,
         ContentType: 'image/png',
         ACL: 'public-read'
-      }
+      };
 
       const self = this;
 

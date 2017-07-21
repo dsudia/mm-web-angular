@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http'
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { merge } from 'ramda';
-import { S3 } from 'aws-sdk';
-import { Educator, EducatorBasics, School, SchoolBasics} from '../../interfaces'
+import { Educator, EducatorBasics, School, SchoolBasics} from '../../interfaces';
 import {Base64EncodedString} from 'aws-sdk/clients/elastictranscoder';
 
 @Injectable()
@@ -49,13 +48,13 @@ export class ProfileService {
       this._profile.next(merge({ memberType: Number(localStorage.getItem('memberType')) }, response));
       return Observable.of(response);
     })
-    .catch(error => {
+    .catch(() => {
       this._profile.next(merge(this.defaultProfile(), { memberType: Number(localStorage.getItem('memberType')) }));
       return Observable.of({});
     });
   }
 
-  private patchProfile(uri, profile) {
+  private patchProfile(uri: string, profile: EducatorBasics | SchoolBasics) {
     const token = localStorage.getItem('authToken');
     const headers = new Headers();
     headers.append('authorization', token);
@@ -114,67 +113,4 @@ export class ProfileService {
 
 export function isEducator(profile: Educator | School): profile is Educator {
   return profile.memberType === 1;
-}
-
-function base64ToBlob(base64Data: string, contentType: string, sliceSize?: number) {
-  let byteCharacters,
-    byteArray,
-    byteNumbers,
-    blobData,
-    blob;
-
-  contentType = contentType || '';
-
-  byteCharacters = atob(base64Data);
-
-  // Get blob data sliced or not
-  blobData = sliceSize ? getBlobDataSliced() : getBlobDataAtOnce();
-
-  blob = new Blob(blobData, { type: contentType });
-
-  return blob;
-
-
-  /*
-    * Get blob data in one slice.
-    * => Fast in IE on new Blob(...)
-    */
-  function getBlobDataAtOnce() {
-    byteNumbers = new Array(byteCharacters.length);
-
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-
-    byteArray = new Uint8Array(byteNumbers);
-
-    return [byteArray];
-  }
-
-  /*
-    * Get blob data in multiple slices.
-    * => Slow in IE on new Blob(...)
-    */
-  function getBlobDataSliced() {
-
-    let slice;
-    const byteArrays = [];
-
-    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      slice = byteCharacters.slice(offset, offset + sliceSize);
-
-      byteNumbers = new Array(slice.length);
-
-      for (let i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-
-      byteArray = new Uint8Array(byteNumbers);
-
-      // Add slice
-      byteArrays.push(byteArray);
-    }
-
-    return byteArrays;
-  }
 }

@@ -19,6 +19,6 @@ exports.seed = function(knex, Promise) {
       {id: 16, name: 'Analog'},
       {id: 17, name: 'Patient'},
       {id: 18, name: 'Spontaneous'},
-      {id: 19, name: 'Routine Oriented'},
+      {id: 19, name: 'Routine Oriented'}
   ]);
 };

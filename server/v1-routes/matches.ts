@@ -3,7 +3,7 @@ import { SchoolMatchingProfilesQueries } from '../queries/schoolMatchProfiles';
 
 export class SchoolsMatchingRouter {
   router: Router;
-  q = new SchoolMatchingProfilesQueries()
+  q = new SchoolMatchingProfilesQueries();
 
   constructor() {
     this.router = Router();

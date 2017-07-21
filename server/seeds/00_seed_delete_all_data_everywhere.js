@@ -1,7 +1,7 @@
 exports.seed = function(knex, Promise) {
   // Deletes everything off of the database
   return dbDeleteOrder.reduce((promise, dbName) => promise.then(() => knex(dbName).del()), Promise.resolve());
-}
+};
 
 const dbDeleteOrder = [
   'matching_profiles_age_ranges',
@@ -29,4 +29,4 @@ const dbDeleteOrder = [
   'members',
   'members_matching_profiles',
   'member_types',
-]
+];
