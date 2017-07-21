@@ -51,7 +51,8 @@ export class SchoolMatchingProfilesQueries {
       Reflect.ownKeys(specialDbProfiles)
       .map((key: string) => insertMatchingProfileArrayValues(matchingProfileId, key, specialDbProfiles[key]))
       return Promise.all(promises);
-    });
+    })
+    .then(() => this.getProfile(matchingProfileId));
   }
 
   public getProfile(id: string): PromiseLike<MatchingProfile> {
@@ -78,28 +79,3 @@ function insertMatchingProfileArrayValues(matchingProfileId: string, key: string
   const insertArray = values.map(v => ({ matching_profile_id: matchingProfileId, [columnName]: v}));
   return knex(databaseName).insert(insertArray);
 }
-
-// function returning() {
-//   return [
-//     'id',
-//     'active',
-//     'age_ranges as ageRanges',
-//     'age_ranges_weight as ageRangesWeight',
-//     'calendars',
-//     'calendars_weight as calendarsWeight',
-//     'education_types as educationTypes',
-//     'education_types_weight as educationTypesWeight',
-//     'location_types as locationTypes',
-//     'location_types_weight as locationTypesWeight',
-//     'organization_types as organizationTypes',
-//     'organization_types_weight as organizationTypesWeight',
-//     'sizes',
-//     'sizes_weight as sizesWeight',
-//     'states',
-//     'states_weight as statesWeight',
-//     'training_types as trainingTypes',
-//     'training_types_weight as trainingTypesWeight',
-//     'traits',
-//     'traits_weight as traitsWeight',
-//   ]
-// }

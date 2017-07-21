@@ -12,8 +12,8 @@ export class SchoolsMatchingRouter {
 
   insertSchoolMatchingProfile(req: Request, res: Response, next: NextFunction) {
     return this.q.insertProfile(req.user.id, req.body)
-    .then(() => {
-      res.status(201).send();
+    .then((profile) => {
+      res.status(201).json(profile);
     })
     .catch(error => console.log(error));
   }
