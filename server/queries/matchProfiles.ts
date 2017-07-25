@@ -1,3 +1,5 @@
+import { camel } from 'change-case';
+import { StringKey } from './../interfaces';
 import { merge, omit, pick } from 'ramda';
 import { knex } from './db';
 import { DatabaseTranslator, MatchingProfile } from '../interfaces'
@@ -31,12 +33,11 @@ const specialDatabases = [
   'location_types',
   'organization_types',
   'sizes',
-  'states',
   'training_types',
   'traits',
 ];
 
-export class SchoolMatchingProfilesQueries {
+export class MatchingProfilesQueries {
 
   public insertProfile(memberId: string, profile: MatchingProfile) {
     const matchingProfileId = uuid.v4();
@@ -71,8 +72,24 @@ export class SchoolMatchingProfilesQueries {
       return translateToWeb<MatchingProfile>(dbProfile.rows[0], translator)
     })
   }
-}
 
+  public getKeyValues(): PromiseLike<StringKey> {
+    const promises = specialDatabases.reduce((array: PromiseLike<any>[], dbName) => {
+      array.push(knex(dbName).select(['id', 'name']));
+      return array;
+    }, []);
+    return Promise.all(promises)
+    .then((keyValues: ({ id: number, name: string }[])[]) => {
+      return specialDatabases.reduce((object: StringKey, dbName, index) => {
+        object[camel(dbName)] = keyValues[index].reduce((o: StringKey, kv) => {
+          o[kv.id] = kv.name;
+          return o;
+        }, {});
+        return object;
+      }, {});
+    })
+  }
+}
 function insertMatchingProfileArrayValues(matchingProfileId: string, key: string, values: any[]) {
   const databaseName = `matching_profiles_${key}`;
   const columnName = `${key.substring(0, key.length - 1)}_id`;

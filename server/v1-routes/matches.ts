@@ -1,16 +1,16 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { SchoolMatchingProfilesQueries } from '../queries/schoolMatchProfiles';
+import { MatchingProfilesQueries } from '../queries/matchProfiles';
 
-export class SchoolsMatchingRouter {
+export class MatchingRouter {
   router: Router;
-  q = new SchoolMatchingProfilesQueries();
+  q = new MatchingProfilesQueries();
 
   constructor() {
     this.router = Router();
     this.init();
   }
 
-  insertSchoolMatchingProfile(req: Request, res: Response, next: NextFunction) {
+  insertMatchingProfile(req: Request, res: Response, next: NextFunction) {
     return this.q.insertProfile(req.user.id, req.body)
     .then((profile) => {
       res.status(201).json(profile);
@@ -18,16 +18,22 @@ export class SchoolsMatchingRouter {
     .catch(error => console.log(error));
   }
 
-  getSchoolMatchingProfile(req: Request, res: Response, next: NextFunction) {
+  getMatchingProfile(req: Request, res: Response, next: NextFunction) {
     return this.q.getProfile(req.params.id)
     .then(profile => res.status(200).json(profile));
   }
 
+  getKey(req: Request, res: Response, next: NextFunction) {
+    return this.q.getKeyValues()
+    .then(keyValues => res.status(200).json(keyValues));
+  }
+
   init() {
-    this.router.post('/', this.insertSchoolMatchingProfile.bind(this));
-    this.router.get('/:id', this.getSchoolMatchingProfile.bind(this));
+    this.router.post('/', this.insertMatchingProfile.bind(this));
+    this.router.get('/keyValues', this.getKey.bind(this));
+    this.router.get('/:id', this.getMatchingProfile.bind(this));
   }
 
 }
 
-export const schoolsMatchingRouter = new SchoolsMatchingRouter().router
+export const matchingRouter = new MatchingRouter().router

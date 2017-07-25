@@ -1,8 +1,8 @@
 import { Router, Response, Request, NextFunction } from 'express';
 import * as aws from 'aws-sdk';
 // import { Educator, School, UploadRequest } from '../interfaces'
-import { EducatorsQuerier } from '../queries/educators';
-import { SchoolsQuerier } from '../queries/schools';
+// import { EducatorsQuerier } from '../queries/educators';
+// import { SchoolsQuerier } from '../queries/schools';
 
 export class AvatarsRouter {
   router: Router;
