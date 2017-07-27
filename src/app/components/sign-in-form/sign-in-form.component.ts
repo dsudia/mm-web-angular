@@ -3,6 +3,7 @@ import {MdDialog, MdDialogConfig, MdDialogRef} from '@angular/material';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms'
 import { Router } from '@angular/router'
 
+import { StringKey } from './../../../../server/interfaces';
 import { AuthService } from '../../services/auth/auth.service'
 
 declare var require: any
@@ -46,6 +47,26 @@ export class SignInFormButtonComponent implements OnInit {
 export class SignInFormDialogComponent implements OnInit {
   signInForm: FormGroup;
   backendError: Error;
+
+  formErrors: StringKey = {
+    email: '',
+    password: '',
+  }
+
+  validationMessages: { [key: string]: StringKey } = {
+    'email': {
+      'required': 'email is required',
+      'minlength': 'email must be at least 7 characters long',
+      'maxlength': 'email must be less than 50 characters long',
+      'email': 'email must be a valid email'
+    },
+    'password': {
+      'required': 'password is required',
+      'minlength': 'password must be at least 8 characters long',
+      'maxlength': 'password must be less than 50 characters long',
+      'schemaFail': 'password must contain uppercase, lowercase, number and symbol'
+    }
+  }
 
   constructor(
     public dialogRef: MdDialogRef<SignInFormDialogComponent>,
@@ -106,26 +127,6 @@ export class SignInFormDialogComponent implements OnInit {
       console.error(err.json())
       this.backendError = err;
     })
-  }
-
-  formErrors = {
-    email: '',
-    password: '',
-  }
-
-  validationMessages = {
-    'email': {
-      'required': 'email is required',
-      'minlength': 'email must be at least 7 characters long',
-      'maxlength': 'email must be less than 50 characters long',
-      'email': 'email must be a valid email'
-    },
-    'password': {
-      'required': 'password is required',
-      'minlength': 'password must be at least 8 characters long',
-      'maxlength': 'password must be less than 50 characters long',
-      'schemaFail': 'password must contain uppercase, lowercase, number and symbol'
-    }
   }
 }
 

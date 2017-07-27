@@ -1,13 +1,15 @@
+import { MatchingProfileEditorComponent } from './../matching-profile-editor/matching-profile-editor.component';
 
 import { Subscription } from 'rxjs/Rx';
 import { MdDialog } from '@angular/material';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 
+import { MatchingService } from './../../services/matching/matching.service';
 import { CreateEducatorProfileFormDialogComponent } from './../create-educator-profile-form/create-educator-profile-form.component';
 import { CreateSchoolProfileFormDialogComponent } from './../create-school-profile-form/create-school-profile-form.component';
 import { ProfileImageUploaderComponent } from './../profile-image-uploader/profile-image-uploader.component';
 import { ProfileService, isEducator } from '../../services/profile/profile.service';
-import { Educator, School } from '../../interfaces';
+import { Educator, School, MatchingProfile } from '../../interfaces';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,14 +18,24 @@ import { Educator, School } from '../../interfaces';
   templateUrl: './profile.component.html',
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-  profile: Educator | School;
-  profileSubscription: Subscription;
+  private profile: Educator | School;
+  private myMatchingProfiles: MatchingProfile[];
+  private profileSubscription: Subscription;
+  private matchingSubscription: Subscription;
 
-  constructor(private profileService: ProfileService, public dialog: MdDialog, private cd: ChangeDetectorRef) {
+  constructor(
+      private profileService: ProfileService,
+      private matchingService: MatchingService,
+      public dialog: MdDialog,
+      private cd: ChangeDetectorRef) {
     this.profileSubscription = this.profileService.profile.subscribe(this.updateProfile.bind(this));
+    this.matchingSubscription = this.matchingService.matchingProfiles.subscribe((profiles: MatchingProfile[]) => {
+      this.myMatchingProfiles = profiles;
+      this.cd.markForCheck();
+    })
   }
 
-  private updateProfile(profile) {
+  private updateProfile(profile: any) {
     this.profile = profile;
     this.cd.markForCheck();
   }
@@ -60,6 +72,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
       });
       dialogRef.componentInstance.profile = this.profile;
     }
+  }
+
+  editMatchingProfile({ id }: MatchingProfile) {
+    this.matchingService.loadMatchingProfile(id);
+    const dialogRef = this.dialog.open(MatchingProfileEditorComponent, {
+      width: '50%',
+      height: '70%',
+    });
   }
 
   editProfilePicture() {

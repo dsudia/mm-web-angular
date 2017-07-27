@@ -73,6 +73,10 @@ export class MatchingProfilesQueries {
     })
   }
 
+  public getMyProfiles(member_id: string): PromiseLike<MatchingProfile[]> {
+    return knex('matching_profiles').select('id').where({ member_id });
+  }
+
   public getKeyValues(): PromiseLike<StringKey> {
     const promises = specialDatabases.reduce((array: PromiseLike<any>[], dbName) => {
       array.push(knex(dbName).select(['id', 'name']));

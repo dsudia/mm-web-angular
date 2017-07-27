@@ -28,9 +28,15 @@ export class MatchingRouter {
     .then(keyValues => res.status(200).json(keyValues));
   }
 
+  getMyMatchingProfiles(req: Request, res: Response, next: NextFunction) {
+    return this.q.getMyProfiles(req.user.id)
+    .then(profiles => res.status(200).json(profiles));
+  }
+
   init() {
     this.router.post('/', this.insertMatchingProfile.bind(this));
     this.router.get('/keyValues', this.getKey.bind(this));
+    this.router.get('/', this.getMyMatchingProfiles.bind(this));
     this.router.get('/:id', this.getMatchingProfile.bind(this));
   }
 

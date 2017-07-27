@@ -1,3 +1,4 @@
+import { StringKey } from './../../../../server/interfaces';
 import { Educator, School } from '../../interfaces';
 import { ProfileService, isEducator } from './../../services/profile/profile.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
@@ -23,13 +24,13 @@ export class CreateEducatorProfileFormDialogComponent implements OnInit {
   profileForm: FormGroup;
   backendError: Error;
 
-  formErrors = {
+  formErrors: StringKey = {
     firstName: '',
     lastName: '',
     description: '',
   }
 
-  validationMessages = {
+  validationMessages: { [key: string]: StringKey } = {
     firstName: {
       required: 'First name is required',
     },

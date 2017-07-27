@@ -3,6 +3,7 @@ import {MdDialog, MdDialogConfig, MdDialogRef} from '@angular/material';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms'
 import { Router } from '@angular/router'
 
+import { StringKey } from './../../../../server/interfaces';
 import { AuthService } from '../../services/auth/auth.service'
 
 declare var require: any
@@ -55,13 +56,13 @@ export class RegisterFormDialogComponent implements OnInit {
     { value: 2, viewValue: 'School' }
   ]
 
-  formErrors = {
+  formErrors: StringKey = {
     email: '',
     password: '',
     passconf: '',
   }
 
-  validationMessages = {
+  validationMessages: { [key: string]: StringKey } = {
     'email': {
       'required': 'email is required',
       'minlength': 'email must be at least 7 characters long',

@@ -1,3 +1,4 @@
+import { MatchingService } from './services/matching/matching.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -43,6 +44,7 @@ import { AuthService } from './services/auth/auth.service';
 import { ProfileService } from './services/profile/profile.service'
 
 import { AuthGuard, appRoutes } from './routes';
+import { MatchingProfileEditorComponent } from './components/matching-profile-editor/matching-profile-editor.component';
 
 @NgModule({
   declarations: [
@@ -63,13 +65,15 @@ import { AuthGuard, appRoutes } from './routes';
     ToolbarComponent,
     CreateEducatorProfileFormDialogComponent,
     CreateSchoolProfileFormDialogComponent,
-    ProfileImageUploaderComponent
+    ProfileImageUploaderComponent,
+    MatchingProfileEditorComponent
   ],
   entryComponents: [
     ProfileImageUploaderComponent,
     CreateEducatorProfileFormDialogComponent,
     CreateSchoolProfileFormDialogComponent,
     FaqDialogComponent,
+    MatchingProfileEditorComponent,
     RegisterFormDialogComponent,
     SignInFormDialogComponent,
     TermsDialogComponent
@@ -95,6 +99,7 @@ import { AuthGuard, appRoutes } from './routes';
   providers: [
     AuthGuard,
     AuthService,
+    MatchingService,
     ProfileService
   ],
   bootstrap: [AppComponent]

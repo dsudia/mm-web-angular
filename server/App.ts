@@ -50,7 +50,7 @@ class App {
                 '/healthcheck',
                 '/profile',
                 { url: '/api/v1/auth', methods: ['GET', 'POST'] },
-                { url: '/api/v1/matches/keyValues', methods: ['GET'] }
+                { url: '/api/v1/matching/keyValues', methods: ['GET'] }
             ]
         }));
         if (process.env.NODE_ENV === 'production') {
@@ -64,7 +64,7 @@ class App {
         this.express.use('/api/v1/auth', authRouter);
         this.express.use('/api/v1/educators', educatorsRouter);
         this.express.use('/api/v1/schools', schoolsRouter);
-        this.express.use('/api/v1/matches', matchingRouter);
+        this.express.use('/api/v1/matching', matchingRouter);
         this.express.use('/api/v1/avatars', avatarsRouter);
         this.express.use(function(err: Error, req: Request, res: Response, next: NextFunction) {
             if (err.name === 'UnauthorizedError') {

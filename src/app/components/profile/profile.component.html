@@ -20,3 +20,13 @@
   <button md-raised-button color="primary" (click)="editProfile()">Edit Profile</button>
   <button md-raised-button color="primary" (click)="editProfilePicture()">{{ profile.avatarUrl ? 'Change Picture' : 'Upload Picture'}}</button>
 </md-card>
+<md-card>
+  <md-card-header>
+    <md-card-title>My Matching Profiles</md-card-title>
+  </md-card-header>
+  <md-card-content>
+    <p *ngFor="let mp of myMatchingProfiles" (click)="editMatchingProfile(mp)">{{mp.id}}</p>
+  </md-card-content>
+  <button md-raised-button color="primary" (click)="editProfile()">Edit Profile</button>
+  <button md-raised-button color="primary" (click)="editProfilePicture()">{{ profile.avatarUrl ? 'Change Picture' : 'Upload Picture'}}</button>
+</md-card>

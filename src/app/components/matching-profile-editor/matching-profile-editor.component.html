@@ -1,0 +1,7 @@
+<form [formGroup]="form">
+  <div *ngFor="let selection of form.get('selections').controls; let i = index">
+    <input type="checkbox" [formControl]="selection"/> {{matchingProfileKey[currentPage][i]}}
+  </div>
+</form>
+<button (click)="matchingService.previousPage()">Previous</button>
+<button (click)="matchingService.nextPage()">Next</button>
