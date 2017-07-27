@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http'
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { merge } from 'ramda';
-import { Educator, EducatorBasics, School, SchoolBasics} from '../../interfaces';
-import {Base64EncodedString} from 'aws-sdk/clients/elastictranscoder';
+import { Educator, EducatorBasics, School, SchoolBasics } from '../../interfaces';
+import { Base64EncodedString } from 'aws-sdk/clients/elastictranscoder';
 
 @Injectable()
 export class ProfileService {

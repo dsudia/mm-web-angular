@@ -23,7 +23,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.profileSubscription = this.profileService.profile.subscribe(this.updateProfile.bind(this));
   }
 
-  private updateProfile(profile) {
+  private updateProfile(profile: Educator | School) {
     this.profile = profile;
     this.cd.markForCheck();
   }
