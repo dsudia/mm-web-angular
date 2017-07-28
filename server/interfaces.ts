@@ -52,7 +52,7 @@ export interface School extends StringKey {
 }
 
 export interface MatchingProfile {
-  id?: number;
+  id?: string;
   memberId?: number;
   active?: boolean;
   ageRanges?: number[];

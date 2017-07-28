@@ -1,3 +1,4 @@
+import { MdDialogRef } from '@angular/material';
 import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs/Rx';
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
@@ -90,6 +91,7 @@ export class MatchingProfileEditorComponent implements OnInit, OnDestroy {
   }
 
   constructor(
+      private dialogRef: MdDialogRef<MatchingProfileEditorComponent>,
       private matchingService: MatchingService,
       private profileService: ProfileService,
       private cd: ChangeDetectorRef,
@@ -131,6 +133,16 @@ export class MatchingProfileEditorComponent implements OnInit, OnDestroy {
     }
   }
 
+  saveChanges() {
+    this.matchingService.patchProfile();
+    this.dialogRef.close();
+    console.log('here???');
+  }
+
+  discardChanges() {
+    this.dialogRef.close();
+  }
+
   buildForm() {
     if (this.matchingProfile && Reflect.ownKeys(this.matchingProfile).length > 0 && this.currentPage) {
       this.form = this.fb.group({
@@ -143,6 +155,12 @@ export class MatchingProfileEditorComponent implements OnInit, OnDestroy {
     }
     this.cd.markForCheck();
     this.form.statusChanges.subscribe(() => {
+      const checkedNumber = (<FormArray>this.form.controls.selections).controls
+      .map((control, index) => {
+        return control.value ? index + 1 : undefined;
+      })
+      .filter(value => value !== undefined);
+      this.matchingService.patchArray(checkedNumber);
       this.cd.markForCheck();
     });
   }

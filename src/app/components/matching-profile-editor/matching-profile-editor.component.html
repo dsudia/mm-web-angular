@@ -1,13 +1,20 @@
-<div class="description">{{meta[currentPage].description}}</div>
+<div class="description">
+  <app-loading-status class="float-right"></app-loading-status>
+  {{meta[currentPage].description}}
+</div>
 <div class="form">
   <form [formGroup]="form">
     <div *ngFor="let selection of form.get('selections').controls; let i = index">
-      <input type="checkbox" [formControl]="selection"/> {{matchingProfileKey[currentPage][i]}}
+      <input type="checkbox" [formControl]="selection"/> {{matchingProfileKey[currentPage][i + 1]}}
     </div>
   </form>
 </div>
 <div class="footer">{{helperMessage()}}
 <div class="footer">
   <button class="pull-left" (click)="matchingService.previousPage()">Previous</button>
+  <div class="center">
+    <button md-raised-button color="primary" (click)="saveChanges()">Save Changes</button>
+    <button md-raised-button color="warn" (click)="discardChanges()">Discard Changes</button>
+  </div>
   <button class="pull-right" (click)="matchingService.nextPage()">Next</button>
 </div>

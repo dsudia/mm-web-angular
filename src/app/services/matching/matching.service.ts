@@ -1,7 +1,8 @@
+import { PleaseWaitService } from './../please-wait/please-wait.service';
 import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http'
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
-import { merge } from 'ramda';
+import { merge, pick } from 'ramda';
 import { MatchingProfile } from '../../interfaces';
 import {Base64EncodedString} from 'aws-sdk/clients/elastictranscoder';
 
@@ -12,25 +13,13 @@ export class MatchingService {
   private _matchingProfile = new BehaviorSubject<MatchingProfile>(this.defaultMatchingProfile());
   private _matchingProfiles = new BehaviorSubject<MatchingProfile[]>([]);
   private _currentPage = new BehaviorSubject<keyof MatchingProfile>(null);
+  private backup: MatchingProfile;
   private index = 0;
   private keys: Array<keyof MatchingProfile> = [];
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private pleaseWaitService: PleaseWaitService) {
     this.getKeys();
     this.getMatchingProfiles();
-  }
-
-  public patchMatchingProfile(matchingProfile: MatchingProfile) {
-    const token = localStorage.getItem('authToken');
-    const headers = new Headers();
-    headers.append('authorization', token);
-    const options = new RequestOptions({ headers: headers });
-    return this.http.put('http://localhost:3000/api/v1/matches', matchingProfile, options)
-    .map(res => res.json())
-    .flatMap((response: MatchingProfile) => {
-      this._matchingProfile.next(response);
-      return Observable.of(response);
-    })
   }
 
   public get matchingProfile(): Observable<MatchingProfile> {
@@ -64,14 +53,18 @@ export class MatchingService {
   }
 
   public loadMatchingProfile(id: string): void {
+    this.pleaseWaitService.startWaiting();
     this.http.get(`http://localhost:3000/api/v1/matching/${id}`, this.getAuthOptions())
     .map(response => response.json())
     .subscribe((mp: MatchingProfile) => {
+      this.backup = mp;
       this._matchingProfile.next(mp);
+      this.pleaseWaitService.stopWaiting();
     })
   }
 
   public createMatchingProfile(): void {
+    this.pleaseWaitService.startWaiting();
     this._matchingProfile.next({});
     this.http.post(`http://localhost:3000/api/v1/matching`, {}, this.getAuthOptions())
     .map(response => response.json())
@@ -81,7 +74,23 @@ export class MatchingService {
     });
   }
 
+  public patchArray(array) {
+    this._matchingProfile.next(merge(this._matchingProfile.getValue(), { [this._currentPage.getValue()]: array }));
+  }
+
+  public patchProfile() {
+    this.pleaseWaitService.startWaiting();
+    const profile = this._matchingProfile.getValue();
+    this.http.patch(`http://localhost:3000/api/v1/matching/${profile.id}`, profile, this.getAuthOptions())
+    .map(response => response.json())
+    .subscribe((mp: MatchingProfile) => {
+      console.log('here???');
+      this.getMatchingProfiles();
+    });
+  }
+
   public removeMatchingProfile(id): void {
+    this.pleaseWaitService.startWaiting();
     if (this._matchingProfile.getValue().id === id) {
       this._matchingProfile.next({});
     }
@@ -100,6 +109,7 @@ export class MatchingService {
     .map(response => response.json())
     .subscribe((mps: MatchingProfile[]) => {
       this._matchingProfiles.next(mps);
+      this.pleaseWaitService.stopWaiting();
     })
   }
 

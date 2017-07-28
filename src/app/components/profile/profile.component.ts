@@ -100,6 +100,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(MatchingProfileEditorComponent, {
       width: '50%',
       height: '70%',
+      disableClose: true,
     });
   }
 

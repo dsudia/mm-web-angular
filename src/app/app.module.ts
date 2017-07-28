@@ -1,3 +1,4 @@
+import { PleaseWaitService } from './services/please-wait/please-wait.service';
 import { MatchingService } from './services/matching/matching.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -39,13 +40,14 @@ import { SignInFormButtonComponent, SignInFormDialogComponent } from './componen
 import { TermsButtonComponent, TermsDialogComponent } from './components/terms/terms.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component'
 import { ProfileImageUploaderComponent } from './components/profile-image-uploader/profile-image-uploader.component';
+import { LoadingStatusComponent } from './components/loading-status/loading-status.component';
+import { MatchingProfileEditorComponent } from './components/matching-profile-editor/matching-profile-editor.component';
 
 // Services
 import { AuthService } from './services/auth/auth.service';
 import { ProfileService } from './services/profile/profile.service'
 
 import { AuthGuard, appRoutes } from './routes';
-import { MatchingProfileEditorComponent } from './components/matching-profile-editor/matching-profile-editor.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +69,8 @@ import { MatchingProfileEditorComponent } from './components/matching-profile-ed
     CreateEducatorProfileFormDialogComponent,
     CreateSchoolProfileFormDialogComponent,
     ProfileImageUploaderComponent,
-    MatchingProfileEditorComponent
+    MatchingProfileEditorComponent,
+    LoadingStatusComponent
   ],
   entryComponents: [
     ProfileImageUploaderComponent,
@@ -102,7 +105,8 @@ import { MatchingProfileEditorComponent } from './components/matching-profile-ed
     AuthGuard,
     AuthService,
     MatchingService,
-    ProfileService
+    PleaseWaitService,
+    ProfileService,
   ],
   bootstrap: [AppComponent]
 })
