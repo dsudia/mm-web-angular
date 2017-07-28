@@ -77,6 +77,10 @@ export class MatchingProfilesQueries {
     return knex('matching_profiles').select('id').where({ member_id });
   }
 
+  public removeProfile(id: string): PromiseLike<any> {
+    return knex('matching_profiles').delete().where({ id });
+  }
+
   public getKeyValues(): PromiseLike<StringKey> {
     const promises = specialDatabases.reduce((array: PromiseLike<any>[], dbName) => {
       array.push(knex(dbName).select(['id', 'name']));

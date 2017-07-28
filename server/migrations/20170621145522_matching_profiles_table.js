@@ -2,7 +2,7 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTableIfNotExists('matching_profiles', table => {
       table.uuid('id').primary().unique().notNullable();
-      table.uuid('member_id').references('id').inTable('members');
+      table.uuid('member_id').references('id').inTable('members').onDelete('CASCADE');
       table.boolean('active').notNullable().defaultTo(true);
       table.integer('age_ranges_weight');
       table.integer('calendars_weight');

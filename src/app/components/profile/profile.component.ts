@@ -76,10 +76,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   editMatchingProfile({ id }: MatchingProfile) {
     this.matchingService.loadMatchingProfile(id);
-    const dialogRef = this.dialog.open(MatchingProfileEditorComponent, {
-      width: '50%',
-      height: '70%',
-    });
+    this.openMatchingProfileEdit();
   }
 
   editProfilePicture() {
@@ -87,6 +84,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
       width: '80%',
       height: '80%',
       disableClose: false
+    });
+  }
+
+  newMatchingProfile() {
+    this.matchingService.createMatchingProfile();
+    this.openMatchingProfileEdit();
+  }
+
+  private openMatchingProfileEdit() {
+    const dialogRef = this.dialog.open(MatchingProfileEditorComponent, {
+      width: '50%',
+      height: '70%',
     });
   }
 

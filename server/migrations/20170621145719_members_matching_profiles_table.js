@@ -2,7 +2,7 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTableIfNotExists('members_matching_profiles', table => {
       table.uuid('member_id').notNullable().references('id').inTable('members');
-      table.uuid('matching_profile_id').notNullable().references('id').inTable('matching_profiles');
+      table.uuid('matching_profile_id').notNullable().references('id').inTable('matching_profiles').onDelete('CASCADE');
       table.timestamps(true, true);
   })
 };

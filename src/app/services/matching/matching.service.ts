@@ -58,7 +58,7 @@ export class MatchingService {
   public previousPage(): void {
     this.index--;
     if (this.index < 0) {
-      this.index = this.keys.length - 1 - this.index;
+      this.index = this.keys.length + this.index;
     }
     this.publishCurrentPage();
   }
@@ -69,6 +69,16 @@ export class MatchingService {
     .subscribe((mp: MatchingProfile) => {
       this._matchingProfile.next(mp);
     })
+  }
+
+  public createMatchingProfile(): void {
+    this._matchingProfile.next({});
+    this.http.post(`http://localhost:3000/api/v1/matching`, {}, this.getAuthOptions())
+    .map(response => response.json())
+    .subscribe((mp: MatchingProfile) => {
+      this._matchingProfile.next(mp);
+      this.getMatchingProfiles();
+    });
   }
 
   private publishCurrentPage() {
@@ -86,8 +96,8 @@ export class MatchingService {
   private getAuthOptions(): RequestOptions {
     const token = localStorage.getItem('authToken');
     const headers = new Headers();
-    headers.append('authorization', token);
-    return new RequestOptions({ headers: headers });
+    headers.append('Authorization', token);
+    return new RequestOptions({ headers });
   }
 
   private defaultMatchingProfile(): MatchingProfile {

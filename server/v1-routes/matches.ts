@@ -23,6 +23,11 @@ export class MatchingRouter {
     .then(profile => res.status(200).json(profile));
   }
 
+  deleteMatchingProfile(req: Request, res: Response, next: NextFunction) {
+    return this.q.removeProfile(req.params.id)
+    .then(() => res.status(200).send('OK'));
+  }
+
   getKey(req: Request, res: Response, next: NextFunction) {
     return this.q.getKeyValues()
     .then(keyValues => res.status(200).json(keyValues));
@@ -38,6 +43,7 @@ export class MatchingRouter {
     this.router.get('/keyValues', this.getKey.bind(this));
     this.router.get('/', this.getMyMatchingProfiles.bind(this));
     this.router.get('/:id', this.getMatchingProfile.bind(this));
+    this.router.delete('/:id', this.deleteMatchingProfile.bind(this));
   }
 
 }

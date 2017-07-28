@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  max-height: 100%;
+  .description {
+    flex: 0 0 100px;
+  }
+  .form {
+    flex: 1;
+    overflow: auto;
+    border-top: black 1px solid;
+    border-bottom: black 1px solid;
+  }
+  .footer {
+    flex: 0 0 30px;
+    padding: 10px;
+  }
+}

@@ -1,7 +1,13 @@
-<form [formGroup]="form">
-  <div *ngFor="let selection of form.get('selections').controls; let i = index">
-    <input type="checkbox" [formControl]="selection"/> {{matchingProfileKey[currentPage][i]}}
-  </div>
-</form>
-<button (click)="matchingService.previousPage()">Previous</button>
-<button (click)="matchingService.nextPage()">Next</button>
+<div class="description">{{meta[currentPage].description}}</div>
+<div class="form">
+  <form [formGroup]="form">
+    <div *ngFor="let selection of form.get('selections').controls; let i = index">
+      <input type="checkbox" [formControl]="selection"/> {{matchingProfileKey[currentPage][i]}}
+    </div>
+  </form>
+</div>
+<div class="footer">{{helperMessage()}}
+<div class="footer">
+  <button class="pull-left" (click)="matchingService.previousPage()">Previous</button>
+  <button class="pull-right" (click)="matchingService.nextPage()">Next</button>
+</div>
