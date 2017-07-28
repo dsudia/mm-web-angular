@@ -151,16 +151,14 @@ export class MatchingProfileEditorComponent implements OnInit, OnDestroy {
     const currentSection = this.matchingProfileKey[this.currentPage];
     const sortedKeys = Reflect.ownKeys(currentSection).sort();
     const array = sortedKeys.map((key, index) =>
-      (<number[]>this.matchingProfile[this.currentPage]).includes(index))
+      (<number[]>this.matchingProfile[this.currentPage]).includes(index + 1))
     .map(object => this.fb.control(object));
     return this.fb.array(array);
   }
 
   checkNumberOfBoxesSelected(): 0 | InvalidCheckboxes {
     if (this.form) {
-      console.log(this.form.controls.selections);
       const count = (<FormArray>this.form.controls.selections).controls.reduce((sum, control) => {
-        console.log(control.value);
         return control.value ? sum + 1 : sum;
       }, 0);
       const memberMeta = this.meta[this.currentPage][this.memberType];

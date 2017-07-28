@@ -81,6 +81,16 @@ export class MatchingService {
     });
   }
 
+  public removeMatchingProfile(id): void {
+    if (this._matchingProfile.getValue().id === id) {
+      this._matchingProfile.next({});
+    }
+    this.http.delete(`http://localhost:3000/api/v1/matching/${id}`, this.getAuthOptions())
+    .subscribe(() => {
+      this.getMatchingProfiles();
+    });
+  }
+
   private publishCurrentPage() {
     this._currentPage.next(this.keys[this.index]);
   }

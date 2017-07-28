@@ -1,7 +1,7 @@
 
 exports.up = function(knex, Promise) {
   return knex.schema.createTableIfNotExists('distances', table => {
-      table.increments('id').primary();
+      table.increments('id').primary().unique().notNullable();
       table.integer('distance').unique().notNullable();
       table.timestamps(true, true);
   })

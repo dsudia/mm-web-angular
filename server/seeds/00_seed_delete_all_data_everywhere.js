@@ -27,6 +27,5 @@ const dbDeleteOrder = [
   'schools',
   'educators',
   'members',
-  'members_matching_profiles',
   'member_types',
 ];

@@ -1,8 +1,7 @@
 
 exports.up = function(knex, Promise) {
   return knex.schema.createTableIfNotExists('postal_codes', table => {
-    table.uuid('id').primary().unique().notNullable();
-    table.string('code', 20).unique().notNullable();
+    table.string('postal_code').primary().unique().notNullable();
     table.timestamps(true, true);
   })
 };
