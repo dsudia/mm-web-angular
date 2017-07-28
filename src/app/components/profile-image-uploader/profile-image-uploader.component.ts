@@ -1,7 +1,7 @@
 import { MdDialogRef } from '@angular/material';
 import { ProfileService } from './../../services/profile/profile.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ResizingCroppingImagesComponent } from 'angular2-resizing-cropping-image';
+import { ResizingCroppingImagesComponent } from 'alyle-ui';
 
 @Component({
   selector: 'app-profile-image-uploader',
@@ -10,7 +10,7 @@ import { ResizingCroppingImagesComponent } from 'angular2-resizing-cropping-imag
 })
 export class ProfileImageUploaderComponent implements OnInit {
 
-  @ViewChild('_img') img: ResizingCroppingImagesComponent;
+  @ViewChild(ResizingCroppingImagesComponent) img: ResizingCroppingImagesComponent;
 
   constructor(private profileService: ProfileService, public dialogRef: MdDialogRef<ProfileImageUploaderComponent>, ) {
   }

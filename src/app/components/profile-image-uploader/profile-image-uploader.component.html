@@ -9,7 +9,7 @@
 
 <div class="flex">
   <img *ngIf="_img.imgCrop" class="img-preview" [src]="_img.imgCrop">
-  <ly-cropping-img #_img format="png"></ly-cropping-img>
+  <ly-cropping #_img format="png"></ly-cropping>
 </div>
 
 <button md-raised-button color="primary" (click)="uploadPicture()">Upload!</button>

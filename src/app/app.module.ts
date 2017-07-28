@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http'
-import { LyResizingCroppingImageModule } from 'angular2-resizing-cropping-image';
+
 
 
 import { MdCardModule,
@@ -16,8 +16,9 @@ import { MdCardModule,
          MdSelectModule,
          MdToolbarModule
         } from '@angular/material';
-import { CovalentMessageModule } from '@covalent/core'
+import { CovalentMessageModule } from '@covalent/core';
 import { MdTooltipModule } from '@angular/material';
+import { AlyleUIModule, LyResizingCroppingImageModule, } from 'alyle-ui';
 
 // Components
 import { AppComponent } from './app.component';
@@ -93,8 +94,9 @@ import { MatchingProfileEditorComponent } from './components/matching-profile-ed
     NoopAnimationsModule,
     ReactiveFormsModule,
     CovalentMessageModule,
-    RouterModule.forRoot(appRoutes),
+    AlyleUIModule.forRoot({}),
     LyResizingCroppingImageModule,
+    RouterModule.forRoot(appRoutes),
   ],
   providers: [
     AuthGuard,

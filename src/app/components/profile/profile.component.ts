@@ -35,7 +35,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     })
   }
 
-  private updateProfile(profile: any) {
+  private updateProfile(profile: Educator | School) {
     this.profile = profile;
     this.cd.markForCheck();
   }
@@ -90,6 +90,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   newMatchingProfile() {
     this.matchingService.createMatchingProfile();
     this.openMatchingProfileEdit();
+  }
+
+  removeMatchingProfile({ id }: MatchingProfile) {
+    this.matchingService.removeMatchingProfile(id);
   }
 
   private openMatchingProfileEdit() {
