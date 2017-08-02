@@ -17,29 +17,29 @@ export class AvatarsRouter {
     this.init();
   }
 
-    sign(req: Request, res: Response, next: NextFunction) {
-      const options = {
-        Bucket: this.S3_BUCKET,
-        Key: `${req.user.id}.png`,
-        Expires: 60,
-        ContentType: 'image/png',
-        ACL: 'public-read'
-      };
+  sign(req: Request, res: Response, next: NextFunction) {
+    const options = {
+      Bucket: this.S3_BUCKET,
+      Key: `${req.user.id}.png`,
+      Expires: 60,
+      ContentType: 'image/png',
+      ACL: 'public-read'
+    };
 
-      const self = this;
+    const self = this;
 
-      this.s3.getSignedUrl('putObject', options, function(err, data){
-        if (err) {
-          return res.send('Error with S3');
-        }
+    this.s3.getSignedUrl('putObject', options, function(err, data) {
+      if (err) {
+        return res.send('Error with S3');
+      }
 
-        return res.json({
-          fileName: `${req.user.id}.png`,
-          signedRequest: data,
-          url: `https://s3.amazonaws.com/${self.S3_BUCKET}/${req.user.id}.png`,
-        })
+      return res.json({
+        fileName: `${req.user.id}.png`,
+        signedRequest: data,
+        url: `https://s3.amazonaws.com/${self.S3_BUCKET}/${req.user.id}.png`,
       })
-    }
+    })
+  }
 
   init() {
     this.router.get('/sign', this.sign.bind(this));

@@ -102,6 +102,7 @@ export class ProfileService {
       })
     })
     .flatMap((avatarUrl: string) => {
+      console.log(avatarUrl)
       if (isEducator(this._profile.getValue())) {
         return this.patchEducatorProfile({ avatarUrl })
       } else {
