@@ -1,6 +1,6 @@
 import { MdDialogRef } from '@angular/material';
 import { ProfileService } from './../../services/profile/profile.service';
-import { Component, AfterViewInit, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Bounds, ImageCropperComponent, CropperSettings } from 'ng2-img-cropper';
 
 @Component({
@@ -8,7 +8,7 @@ import { Bounds, ImageCropperComponent, CropperSettings } from 'ng2-img-cropper'
   templateUrl: './profile-image-uploader.component.html',
   styleUrls: ['./profile-image-uploader.component.scss']
 })
-export class ProfileImageUploaderComponent implements OnInit, AfterViewInit {
+export class ProfileImageUploaderComponent implements OnInit {
 
   data: any;
   cropperSettings: CropperSettings;
@@ -48,14 +48,9 @@ export class ProfileImageUploaderComponent implements OnInit, AfterViewInit {
     this.data = {};
   }
 
-  ngAfterViewInit() {
-    console.log(this.cropper)
-  }
-
   selectEvent(file: File) {
     const image: any = new Image();
     const myReader: FileReader = new FileReader();
-    console.log(this)
     myReader.onloadend = (loadEvent: any) => {
       image.src = loadEvent.target.result;
       this.cropper.setImage(image);
@@ -72,9 +67,11 @@ export class ProfileImageUploaderComponent implements OnInit, AfterViewInit {
   ngOnInit() {}
 
   uploadEvent() {
-    return this.profileService.addAvatar(this.data.image).subscribe();
+    this.profileService.addAvatar(this.data.image).subscribe(() => { this.dialogRef.close() });
   }
 
-  cancelEvent(): void {}
+  cancelEvent(): void {
+    this.data = {};
+  }
 
 }
