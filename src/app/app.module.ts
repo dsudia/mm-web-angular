@@ -7,8 +7,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http'
 
-
-
 import { MdCardModule,
          MdIconModule,
          MdButtonModule,
@@ -17,9 +15,9 @@ import { MdCardModule,
          MdSelectModule,
          MdToolbarModule
         } from '@angular/material';
-import { CovalentMessageModule } from '@covalent/core';
+import { CovalentMessageModule, CovalentFileModule } from '@covalent/core';
 import { MdTooltipModule } from '@angular/material';
-import { AlyleUIModule, LyResizingCroppingImageModule, } from 'alyle-ui';
+import { ImageCropperComponent } from 'ng2-img-cropper';
 
 // Components
 import { AppComponent } from './app.component';
@@ -58,6 +56,7 @@ import { AuthGuard, appRoutes } from './routes';
     ForTeachersComponent,
     FaqButtonComponent,
     FaqDialogComponent,
+    ImageCropperComponent,
     TermsButtonComponent,
     TermsDialogComponent,
     RegisterFormButtonComponent,
@@ -97,8 +96,7 @@ import { AuthGuard, appRoutes } from './routes';
     NoopAnimationsModule,
     ReactiveFormsModule,
     CovalentMessageModule,
-    AlyleUIModule.forRoot({}),
-    LyResizingCroppingImageModule,
+    CovalentFileModule,
     RouterModule.forRoot(appRoutes),
   ],
   providers: [
