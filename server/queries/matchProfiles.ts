@@ -9,6 +9,7 @@ import * as uuid from 'uuid';
 
 const translator: DatabaseTranslator<MatchingProfile> = {
   active: true,
+  description: 'description',
   age_ranges: 'ageRanges',
   age_ranges_weight: 'ageRangesWeight',
   calendars: true,
@@ -100,12 +101,13 @@ export class MatchingProfilesQueries {
       ARRAY(select trait_id from matching_profiles_traits where matching_profile_id='${id}') as traits,
       * from matching_profiles where id = '${id}';`)
     .then((dbProfile: any) => {
+      console.log(dbProfile);
       return translateToWeb<MatchingProfile>(dbProfile.rows[0], translator)
     })
   }
 
   public getMyProfiles(member_id: string): Bluebird<MatchingProfile[]> {
-    return knex('matching_profiles').select('id').where({ member_id });
+    return knex('matching_profiles').select('id', 'description').where({ member_id });
   }
 
   public removeProfile(member_id: string, id: string): Bluebird<any> {
@@ -122,6 +124,7 @@ export class MatchingProfilesQueries {
       return specialDatabases.reduce((object: StringKey, dbName, index) => {
         object[camel(dbName)] = keyValues[index].reduce((o: StringKey, kv) => {
           o[kv.id] = kv.name;
+          console.log(o);
           return o;
         }, {});
         return object;

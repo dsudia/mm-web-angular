@@ -26,7 +26,7 @@
   </md-card-header>
   <md-card-content>
     <p *ngFor="let mp of myMatchingProfiles">
-      <span (click)="editMatchingProfile(mp)">{{mp.id}}</span>
+      <span (click)="editMatchingProfile(mp)">{{mp.description || mp.id}}</span>
       <i class="material-icons" (click)="removeMatchingProfile(mp)">delete_forever</i>
     </p>
   </md-card-content>
