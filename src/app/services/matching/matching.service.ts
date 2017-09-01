@@ -57,6 +57,7 @@ export class MatchingService {
     this.http.get(`http://localhost:3000/api/v1/matching/${id}`, this.getAuthOptions())
     .map(response => response.json())
     .subscribe((mp: MatchingProfile) => {
+      console.log(mp);
       this.backup = mp;
       this._matchingProfile.next(mp);
       this.pleaseWaitService.stopWaiting();
@@ -108,6 +109,7 @@ export class MatchingService {
     this.http.get('http://localhost:3000/api/v1/matching', this.getAuthOptions())
     .map(response => response.json())
     .subscribe((mps: MatchingProfile[]) => {
+      console.log(mps)
       this._matchingProfiles.next(mps);
       this.pleaseWaitService.stopWaiting();
     })

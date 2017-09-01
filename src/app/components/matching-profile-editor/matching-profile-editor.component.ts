@@ -136,7 +136,6 @@ export class MatchingProfileEditorComponent implements OnInit, OnDestroy {
   saveChanges() {
     this.matchingService.patchProfile();
     this.dialogRef.close();
-    console.log('here???');
   }
 
   discardChanges() {

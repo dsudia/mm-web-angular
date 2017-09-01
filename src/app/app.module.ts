@@ -21,6 +21,7 @@ import { ImageCropperComponent } from 'ng2-img-cropper';
 
 // Components
 import { AppComponent } from './app.component';
+import { AboutButtonComponent, AboutDialogComponent } from './components/about/about.component';
 import {
   CreateEducatorProfileFormDialogComponent,
 } from './components/create-educator-profile-form/create-educator-profile-form.component';
@@ -50,6 +51,8 @@ import { AuthGuard, appRoutes } from './routes';
 @NgModule({
   declarations: [
     AppComponent,
+    AboutButtonComponent,
+    AboutDialogComponent,
     HomeComponent,
     HowItWorksComponent,
     ForSchoolsComponent,
@@ -69,9 +72,10 @@ import { AuthGuard, appRoutes } from './routes';
     CreateSchoolProfileFormDialogComponent,
     ProfileImageUploaderComponent,
     MatchingProfileEditorComponent,
-    LoadingStatusComponent
+    LoadingStatusComponent,
   ],
   entryComponents: [
+    AboutDialogComponent,
     ProfileImageUploaderComponent,
     CreateEducatorProfileFormDialogComponent,
     CreateSchoolProfileFormDialogComponent,

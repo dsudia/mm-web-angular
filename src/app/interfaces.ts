@@ -1,5 +1,6 @@
 export interface MatchingProfile {
     id?: string;
+    description?: string;
     memberID?: number;
     ageRanges?: number[];
     ageRangesWgt?: number;
